@@ -1,15 +1,5 @@
-import pymysql
 from werkzeug.security import generate_password_hash
-
-def get_db_connection():
-    return pymysql.connect(
-        host='localhost',
-        user='root',
-        password='',
-        database='global_logistics',
-        charset='utf8mb4',
-        cursorclass=pymysql.cursors.DictCursor
-    )
+from app import get_db_connection
 
 def add_dummy_user():
     full_name = "Dummy User"

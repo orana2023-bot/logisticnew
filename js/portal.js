@@ -100,6 +100,32 @@ document.addEventListener('DOMContentLoaded', () => {
         loadingOverlay.style.display = 'none';
     }
 
-    // --- Initial State ---
-    // If there's a hash or param, we could handle it here.
+    // --- Mobile Sidebar Toggle & Overlay Interaction ---
+    const mobileToggle = document.getElementById('mobile-toggle');
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+
+    if (mobileToggle) {
+        mobileToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('mobile-open');
+            overlay.classList.toggle('active');
+        });
+    }
+
+    if (overlay) {
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('mobile-open');
+            overlay.classList.remove('active');
+        });
+    }
+
+    // Auto-close sidebar on mobile when a link is clicked
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                sidebar.classList.remove('mobile-open');
+                overlay.classList.remove('active');
+            }
+        });
+    });
 });
