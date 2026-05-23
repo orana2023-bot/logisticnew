@@ -303,6 +303,10 @@
      .dashboard-grid {
          grid-template-columns: 1fr;
      }
+     
+     .sidebar {
+         display: none !important; /* Hide sidebar in narrow viewports, managed by master portal */
+     }
  }
 
  @media (max-width: 768px) {
@@ -310,14 +314,26 @@
          flex-direction: column;
      }
 
-     .sidebar {
-         width: 100%;
-         padding: 1rem 0;
-         border-right: none;
-         border-bottom: 1px solid var(--border);
-     }
-
      .main-content {
          padding: 1rem;
+     }
+ }
+ 
+ @media (max-width: 576px) {
+     .table-controls {
+         flex-direction: column;
+         align-items: stretch;
+         gap: 10px;
+     }
+     
+     .table-controls input,
+     .table-controls select {
+         width: 100%;
+     }
+     
+     .stock-overview {
+         flex-direction: column;
+         align-items: center;
+         gap: 20px;
      }
  }

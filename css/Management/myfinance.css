@@ -1225,17 +1225,148 @@ body {
     padding-top: 16px;
 }
 
-/* Responsive adjustments */
+/* ============================================ */
+/* ENTERPRISE FINANCE MOBILE RESPONSIVENESS OVERRIDES */
+/* ============================================ */
 @media (max-width: 1200px) {
     .kpi-grid {
         grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
     }
     
     .dashboard-split {
         grid-template-columns: 1fr;
+        gap: 20px;
     }
     
     .invoice-details-grid {
         grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .aging-analysis-grid {
+        grid-template-columns: repeat(3, 1fr);
     }
 }
+
+@media (max-width: 1024px) {
+    .hub-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .sidebar {
+        display: none !important; /* Hide sidebar in narrow viewports, managed by master portal */
+    }
+    
+    .page-viewport {
+        padding: 20px 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    .master-header {
+        padding: 12px 16px;
+        flex-direction: column;
+        height: auto;
+        gap: 12px;
+        align-items: stretch;
+    }
+    
+    .header-search {
+        width: 100%;
+    }
+    
+    .header-actions {
+        justify-content: space-between;
+        gap: 12px;
+    }
+    
+    .aging-analysis-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+    
+    .reconcile-split-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+}
+
+@media (max-width: 576px) {
+    .kpi-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .aging-analysis-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .page-title-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    
+    .action-buttons {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    
+    .action-buttons button, 
+    .action-buttons .btn {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .filter-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+    
+    .search-input-group {
+        width: 100%;
+    }
+    
+    .filter-actions-group {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 8px;
+        width: 100%;
+    }
+    
+    .filter-actions-group select {
+        width: 100%;
+    }
+    
+    .billing-card-detail {
+        padding: 16px;
+    }
+    
+    .billing-meta-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+    
+    .detail-totals-container {
+        width: 100%;
+        margin-left: 0;
+    }
+    
+    .modal-content {
+        width: 90%;
+        padding: 20px;
+    }
+    
+    .modal-form-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .col-span-2 {
+        grid-column: span 1;
+    }
+}
+

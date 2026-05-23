@@ -275,6 +275,10 @@
      .grid-container {
          grid-template-columns: 1fr;
      }
+     
+     .sidebar {
+         display: none !important; /* Hide sidebar in narrow viewports, managed by master portal */
+     }
  }
 
  @media (max-width: 768px) {
@@ -282,23 +286,30 @@
          flex-direction: column;
      }
 
-     .sidebar {
-         width: 100%;
-         height: auto;
-         border-right: none;
-         border-bottom: 1px solid var(--border-color);
-         padding: 1rem 0;
-     }
-
-     .brand {
-         padding-bottom: 1rem;
-     }
-
-     .nav-item {
-         padding: 0.75rem 1.5rem;
-     }
-
      .main-content {
          padding: 1rem;
+     }
+ }
+ 
+ @media (max-width: 576px) {
+     .header {
+         flex-direction: column;
+         align-items: flex-start;
+         gap: 10px;
+     }
+     
+     .header h1 {
+         font-size: 1.5rem;
+     }
+     
+     .summary-row {
+         flex-direction: column;
+         align-items: flex-start;
+         gap: 4px;
+     }
+     
+     .summary-val {
+         max-width: 100%;
+         text-align: left;
      }
  }

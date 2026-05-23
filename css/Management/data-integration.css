@@ -297,19 +297,38 @@
         color: #2b6cb0;
     }
 
+    @media (max-width: 1024px) {
+        .sidebar {
+            display: none !important; /* Hide sidebar in narrow viewports, managed by master portal */
+        }
+    }
+
     @media (max-width: 768px) {
         body {
             flex-direction: column;
-        }
-
-        .sidebar {
-            width: 100%;
-            padding: 1rem 0;
-            border-right: none;
-            border-bottom: 1px solid var(--border);
         }
 
         .main-content {
             padding: 1rem;
         }
     }
+    
+    @media (max-width: 576px) {
+        .table-header {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
+        }
+        
+        .table-controls input {
+            width: 100%;
+        }
+        
+        .metrics-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .api-grid {
+            grid-template-columns: 1fr;
+        }
+    }

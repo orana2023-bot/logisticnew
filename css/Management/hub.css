@@ -960,3 +960,122 @@ table.high-density-table tbody tr:hover {
 .btn.secondary:hover {
     background-color: rgba(226, 232, 240, 0.8);
 }
+
+/* ========================================== */
+/* ENTERPRISE HUB MOBILE RESPONSIVENESS OVERRIDES */
+/* ========================================== */
+
+@media (max-width: 1024px) {
+    .hub-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .sidebar {
+        display: none !important; /* Hide operational sidebar in narrow views, use portal header drawer instead */
+    }
+    
+    .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+    
+    .dashboard-split {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .master-header {
+        padding: 0 16px;
+        flex-direction: column;
+        height: auto;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        gap: 12px;
+        align-items: stretch;
+    }
+    
+    .header-search {
+        width: 100%;
+    }
+    
+    .header-actions {
+        justify-content: space-between;
+    }
+    
+    .telemetry-row {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+    
+    .page-viewport {
+        padding: 20px 16px;
+    }
+}
+
+@media (max-width: 576px) {
+    .kpi-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .telemetry-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .page-title-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .page-title-row h1 {
+        font-size: 1.5rem;
+    }
+    
+    .alert-strip {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    
+    .alert-actions-group {
+        margin-left: 0;
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+    
+    .alert-actions-group button {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .table-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+    
+    .filter-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        width: 100%;
+    }
+    
+    select.dropdown-filter {
+        width: 100%;
+        padding: 8px 10px;
+        font-size: 0.85rem;
+    }
+    
+    .detail-drawer {
+        width: 100vw;
+        right: -100vw;
+        top: 60px;
+        height: calc(100vh - 60px);
+    }
+}
+
