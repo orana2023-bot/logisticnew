@@ -1098,9 +1098,9 @@ header {
         transition: none;
     }
     
-    .dropdown:hover .dropdown-menu,
-    .dropdown2:hover .dropdown-menu2 {
-        display: flex;
+    .dropdown-menu.mobile-active,
+    .dropdown-menu2.mobile-active {
+        display: flex !important;
     }
     
     .dropdown-section, .dropdown-section2 {

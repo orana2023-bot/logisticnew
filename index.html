@@ -448,11 +448,55 @@
             navLinks.classList.toggle('active');
         });
 
-        document.querySelectorAll('.nav-links a').forEach(link => {
+        // Close mobile drawer on link click (except dropdown buttons)
+        document.querySelectorAll('.nav-links > a').forEach(link => {
             link.addEventListener('click', () => {
                 hamburger.classList.remove('active');
                 navLinks.classList.remove('active');
             });
+        });
+
+        // Toggle mobile dropdown sections on click (with open/close toggle!)
+        const dropdowns = document.querySelectorAll('.dropdown, .dropdown2');
+        dropdowns.forEach(dropdown => {
+            const btn = dropdown.querySelector('.dropbtn, .dropbtn2');
+            const menu = dropdown.querySelector('.dropdown-menu, .dropdown-menu2');
+            
+            if (btn && menu) {
+                btn.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        const isAlreadyActive = menu.classList.contains('mobile-active');
+                        
+                        // Close any other open mobile dropdowns first
+                        document.querySelectorAll('.dropdown-menu, .dropdown-menu2').forEach(m => {
+                            m.classList.remove('mobile-active');
+                        });
+                        
+                        // Toggle this one
+                        if (!isAlreadyActive) {
+                            menu.classList.add('mobile-active');
+                        } else {
+                            menu.classList.remove('mobile-active');
+                        }
+                    }
+                });
+            }
+        });
+
+        // Close mobile menu if clicked outside
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768) {
+                if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    document.querySelectorAll('.dropdown-menu, .dropdown-menu2').forEach(m => {
+                        m.classList.remove('mobile-active');
+                    });
+                }
+            }
         });
     </script>
 </body>
