@@ -336,4 +336,21 @@
          align-items: center;
          gap: 20px;
      }
+     
+     /* Responsive Table Styles preventing text squeezing */
+     table.high-density-table th,
+     table.high-density-table td,
+     .allocation-table th,
+     .allocation-table td {
+         white-space: nowrap !important;
+         padding: 10px 12px !important;
+         font-size: 0.8rem !important;
+     }
+     
+     .table-responsive {
+         overflow-x: auto !important;
+         -webkit-overflow-scrolling: touch;
+         border-radius: var(--radius-md);
+         border: 1px solid var(--border-color);
+     }
  }
