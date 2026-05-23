@@ -15,17 +15,20 @@
 <body>
   <!-- Navbar -->
   <div class="navbar">
-    <div class="logo">
+    <a href="/" class="logo" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 10px;">
       <div class="logo-box"></div>SATTAR EXIM LLP
+    </a>
+    <div class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
     </div>
     <div class="nav-links">
-      <a href="">Prices</a>
-      <a href="">Book</a>
-      <a href="">Schedules</a>
-      <a href="">Tracking</a>
-      <a href="">Manage</a>
-      <a href="">Services</a>
-      <a href="">Company</a>
+      <a href="/">Home</a>
+      <a href="/templates/track_shipment.html">Tracking</a>
+      <a href="/portal">Enterprise Portal</a>
+      <a href="/templates/login.html">Login</a>
+      <a href="/templates/Register.html">Register</a>
     </div>
   </div>
 
@@ -154,5 +157,14 @@
       </div>
     </div>
   </footer>
+  <script>
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      navLinks.classList.toggle('active');
+    });
+  </script>
 </body>
 </html>
