@@ -10,7 +10,7 @@ app = Flask(__name__, static_folder='.', static_url_path='')
 app.secret_key = 'transglobal_secure_session_secret_key'
 from urllib.parse import urlparse
 
-USE_CLOUD = True
+USE_CLOUD = os.getenv("RENDER") == "true" or os.getenv("USE_CLOUD", "false").lower() == "true"
 
 
 def get_db_connection():
