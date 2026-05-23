@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Allocation Dashboard - SATTAR EXIM LLP</title>
+    <link rel="stylesheet" href="/css/Management/allocation-dashbord.css">
+    <script src="/js/allocation-dashbord.js"></script>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="brand">SATTAR EXIM LLP</div>
+        <a href="#" class="nav-item ">Case Management</a>
+        <a href="#" class="nav-item">Supply Chain Platfrom</a>
+        <a href="allocation-dashbord.html" class="nav-item active">Allocation</a>
+        <a href="data-integration.html" class="nav-item">Data Integration</a>
+        <a href="order-secure-page.html" class="nav-item">Order Secure Paper</a>
+    </aside>
+
+    <main class="main-content">
+        <h1>Resource Allocation Dashboard</h1>
+
+        <div class="card" style="animation-delay: 0.1s;">
+            <h2>Global Stock Overview</h2>
+            <div class="stock-overview">
+                <div class="gauge-container">
+                    <h3>A4 Certified Waybills</h3>
+                    <div class="progress-ring">
+                        <svg width="120" height="120">
+                            <circle class="progress-ring__circle-bg" cx="60" cy="60" r="50"></circle>
+                            <circle class="progress-ring__circle" cx="60" cy="60" r="50" style="--offset: 62.8;">
+                            </circle>
+                        </svg>
+                        <span class="gauge-text">80%</span>
+                    </div>
+                    <p>1,200,000 / 1,500,000 Total</p>
+                </div>
+                <div class="gauge-container">
+                    <h3>Thermal Routing Labels</h3>
+                    <div class="progress-ring">
+                        <svg width="120" height="120">
+                            <circle class="progress-ring__circle-bg" cx="60" cy="60" r="50"></circle>
+                            <circle class="progress-ring__circle" cx="60" cy="60" r="50"
+                                style="--offset: 31.4; stroke: #3182ce;"></circle>
+                        </svg>
+                        <span class="gauge-text">90%</span>
+                    </div>
+                    <p>900 / 1,000 Total Rolls</p>
+                </div>
+                <div class="gauge-container">
+                    <h3>Tamper-Evident Seals</h3>
+                    <div class="progress-ring">
+                        <svg width="120" height="120">
+                            <circle class="progress-ring__circle-bg" cx="60" cy="60" r="50"></circle>
+                            <circle class="progress-ring__circle" cx="60" cy="60" r="50"
+                                style="--offset: 94.2; stroke: #dd6b20;"></circle>
+                        </svg>
+                        <span class="gauge-text">70%</span>
+                    </div>
+                    <p>700 / 1,000 Total Packs</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="left-col">
+                <div class="card" style="animation-delay: 0.2s;">
+                    <h2>Location-Based Allocations</h2>
+                    <div class="table-controls">
+                        <input type="text" id="searchInput" placeholder="Search by location...">
+                        <select>
+                            <option>All Supplies</option>
+                            <option>Waybills</option>
+                            <option>Labels</option>
+                        </select>
+                        <select>
+                            <option>All Statuses</option>
+                            <option>Critical Only</option>
+                        </select>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="allocationTable">
+                            <thead>
+                                <tr>
+                                    <th>Location</th>
+                                    <th>Waybill Stock<br><small>(Allocated/Target)</small></th>
+                                    <th>Label Stock<br><small>(Allocated/Target)</small></th>
+                                    <th>Fulfillment</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>New York HQ</strong></td>
+                                    <td>500 / 500</td>
+                                    <td>20 / 20</td>
+                                    <td><span class="status"><span class="dot fulfilled"></span> Fulfilled</span></td>
+                                    <td><button class="btn-action">Adjust</button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>London Hub</strong></td>
+                                    <td>300 / 400</td>
+                                    <td>15 / 20</td>
+                                    <td><span class="status"><span class="dot partial"></span> Partial</span></td>
+                                    <td><button class="btn-action">Adjust</button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Singapore Reg.</strong></td>
+                                    <td>200 / 200</td>
+                                    <td>10 / 10</td>
+                                    <td><span class="status"><span class="dot fulfilled"></span> Fulfilled</span></td>
+                                    <td><button class="btn-action">Adjust</button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Kolkata Branch</strong></td>
+                                    <td>100 / 300</td>
+                                    <td>5 / 15</td>
+                                    <td><span class="status"><span class="dot critical"></span> Critical</span></td>
+                                    <td><button class="btn-action">Adjust</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-col">
+                <div class="card" style="animation-delay: 0.3s;">
+                    <h2>Critical Alerts & Forecast</h2>
+                    <ul class="alert-list">
+                        <li class="alert-item">
+                            <span>Kolkata Branch - Waybills</span>
+                            <span class="status"><span class="dot critical"></span> Low</span>
+                        </li>
+                        <li class="alert-item">
+                            <span>London Hub - Labels</span>
+                            <span class="status"><span class="dot partial"></span> Warning</span>
+                        </li>
+                        <li class="alert-item">
+                            <span>New York HQ - Storage</span>
+                            <span class="status"><span class="dot fulfilled"></span> Nominal</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card" style="animation-delay: 0.4s;">
+                    <h2>Recent Allocations</h2>
+                    <ul class="alert-list">
+                        <li class="alert-item">
+                            <div><strong>Transfer to Kolkata</strong><br><small>500 Waybills</small></div>
+                            <small style="color: var(--text-muted);">14 mins ago</small>
+                        </li>
+                        <li class="alert-item">
+                            <div><strong>Restock London Hub</strong><br><small>50 Label Rolls</small></div>
+                            <small style="color: var(--text-muted);">2 hours ago</small>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Integration - SecureLogix</title>
+    <link rel="stylesheet" href="/css/Management/data-integration.css">
+    <script src="/js/data-integration.js"></script>
+</head>
+
+<body>
+
+    <aside class="sidebar">
+        <div class="brand">SATTAR EXIM LLP</div>
+        <a href="#" class="nav-item ">Case Management</a>
+        <a href="#" class="nav-item">Supply Chain Platfrom</a>
+        <a href="allocation-dashbord.html" class="nav-item">Allocation</a>
+        <a href="data-integration.html" class="nav-item active">Data Integration</a>
+        <a href="order-secure-page.html" class="nav-item ">Order Secure Paper</a>
+    </aside>
+
+    <main class="main-content">
+        <h1>System Integrations Hub</h1>
+
+        <div class="metrics-grid">
+            <div class="card metric-box" style="animation-delay: 0.1s;">
+                <div class="metric-label">API Uptime</div>
+                <div class="metric-value">99.98%</div>
+                <div style="font-size: 0.75rem; color: var(--success);">All systems operational</div>
+            </div>
+            <div class="card metric-box" style="animation-delay: 0.2s;">
+                <div class="metric-label">Data Synced (24h)</div>
+                <div class="metric-value">1.4M</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">Records transferred</div>
+            </div>
+            <div class="card metric-box" style="animation-delay: 0.3s;">
+                <div class="metric-label">Active Webhooks</div>
+                <div class="metric-value">12</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">Out of 15 configured</div>
+            </div>
+        </div>
+
+        <div class="card" style="animation-delay: 0.4s;">
+            <h2>Active Integrations</h2>
+            <div class="api-grid">
+
+                <div class="api-card">
+                    <div class="api-info">
+                        <div class="api-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                <line x1="8" y1="21" x2="16" y2="21"></line>
+                                <line x1="12" y1="17" x2="12" y2="21"></line>
+                            </svg>
+                        </div>
+                        <div class="api-details">
+                            <h3>Global Customs EDI</h3>
+                            <p>Automated declaration sync</p>
+                        </div>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="api-card">
+                    <div class="api-info">
+                        <div class="api-icon" style="background: #ebf8ff; color: #2b6cb0;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                                <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+                                <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+                            </svg>
+                        </div>
+                        <div class="api-details">
+                            <h3>SAP ERP Core</h3>
+                            <p>Financials & Procurement</p>
+                        </div>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="api-card">
+                    <div class="api-info">
+                        <div class="api-icon" style="background: #fff5f5; color: #c53030;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path
+                                    d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="api-details">
+                            <h3>Legacy WMS</h3>
+                            <p>Local warehouse inventory</p>
+                        </div>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox"> <span class="slider"></span>
+                    </label>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="card" style="animation-delay: 0.5s;">
+            <div class="table-header">
+                <h2>Live Sync Logs</h2>
+                <div class="table-controls">
+                    <input type="text" id="logSearch" placeholder="Search logs...">
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table id="logsTable">
+                    <thead>
+                        <tr>
+                            <th>Timestamp</th>
+                            <th>Source / Destination</th>
+                            <th>Data Payload</th>
+                            <th>Records</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Today, 10:45 AM</td>
+                            <td>SecureLogix ➔ Customs EDI</td>
+                            <td>Waybill Manifests</td>
+                            <td>1,240</td>
+                            <td><span class="status success">● Success</span></td>
+                        </tr>
+                        <tr>
+                            <td>Today, 10:30 AM</td>
+                            <td>SAP ERP ➔ SecureLogix</td>
+                            <td>Cost Center Updates</td>
+                            <td>15</td>
+                            <td><span class="status success">● Success</span></td>
+                        </tr>
+                        <tr>
+                            <td>Today, 10:15 AM</td>
+                            <td>SecureLogix ➔ Legacy WMS</td>
+                            <td>Allocation Orders</td>
+                            <td>-</td>
+                            <td><span class="status error">● Connection Timeout</span></td>
+                        </tr>
+                        <tr>
+                            <td>Today, 10:00 AM</td>
+                            <td>External Carrier API ➔ SecureLogix</td>
+                            <td>Tracking Updates</td>
+                            <td>8,502</td>
+                            <td><span class="status syncing">↻ Syncing...</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

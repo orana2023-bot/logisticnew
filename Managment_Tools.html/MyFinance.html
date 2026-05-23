@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google" content="notranslate">
+    <title>MyFinance - SATTAR EXIM LLP Control Console</title>
+    <!-- Google Fonts for Modern Premium Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Dedicated Style Sheet -->
+    <link rel="stylesheet" href="../css/Management/myfinance.css">
+</head>
+
+<body>
+
+    <div class="hub-container">
+        
+        <!-- ========================================== -->
+        <!-- COLLAPSIBLE SIDEBAR NAV -->
+        <!-- ========================================== -->
+        <aside class="sidebar">
+            <div>
+                <div class="brand">
+                    <i class="fa-solid fa-scale-balanced"></i>
+                    <span>SATTAR EXIM LLP FINANCE</span>
+                </div>
+                
+                <nav class="nav-group">
+                    <div class="nav-item active" data-tab="dashboard">
+                        <i class="fa-solid fa-chart-pie"></i>
+                        <span>Finance Dashboard</span>
+                    </div>
+                    <div class="nav-item" data-tab="invoices">
+                        <i class="fa-solid fa-file-invoice-dollar"></i>
+                        <span>Invoice Management</span>
+                        <span class="badge warning" id="disputed-invoices-badge">3</span>
+                    </div>
+                    <div class="nav-item" data-tab="invoice-details">
+                        <i class="fa-solid fa-magnifying-glass-dollar"></i>
+                        <span>Invoice Details</span>
+                    </div>
+                    <div class="nav-item" data-tab="payments">
+                        <i class="fa-solid fa-receipt"></i>
+                        <span>Payment Tracking</span>
+                    </div>
+                    <div class="nav-item" data-tab="outstanding">
+                        <i class="fa-solid fa-calendar-xmark"></i>
+                        <span>Outstanding Dues</span>
+                        <span class="badge critical" id="overdue-dues-badge">8</span>
+                    </div>
+                </nav>
+            </div>
+
+            <div class="sidebar-footer">
+                <a href="../index.html" class="back-link">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Exit to Main Site</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- ========================================== -->
+        <!-- MAIN OPERATIONAL WORKSPACE -->
+        <!-- ========================================== -->
+        <main class="main-workspace">
+            
+            <!-- Global Master Header -->
+            <header class="master-header">
+                <div class="header-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="global-finance-search" placeholder="Search Invoices, Bookings, or Client codes...">
+                </div>
+
+                <div class="header-actions">
+                    <!-- Entity & Currency Switcher -->
+                    <div class="header-select-group">
+                        <i class="fa-solid fa-globe"></i>
+                        <select id="currency-switcher">
+                            <option value="USD">USD ($)</option>
+                            <option value="EUR">EUR (€)</option>
+                            <option value="SGD">SGD (S$)</option>
+                        </select>
+                    </div>
+
+                    <div class="notification-bell" id="approvals-bell-trigger">
+                        <i class="fa-solid fa-bell"></i>
+                        <span class="badge-dot" id="approvals-alert-dot"></span>
+                    </div>
+                    
+                    <div class="user-profile">
+                        <div class="avatar">AJ</div>
+                        <span class="user-name">Aditya Jaiswal</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dynamic Viewport -->
+            <section class="page-viewport">
+
+                <!-- ========================================== -->
+                <!-- TAB 1: FINANCE DASHBOARD -->
+                <!-- ========================================== -->
+                <div id="dashboard-view" class="viewport-view active">
+                    <div class="page-title-row">
+                        <div>
+                            <h1>Financial Control Desk</h1>
+                            <p class="page-subtitle">Real-time revenue telemetry, billing analytics, and approval streams</p>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn secondary" id="trigger-calc-btn">
+                                <i class="fa-solid fa-calculator"></i> Freight Estimator
+                            </button>
+                            <button class="btn primary" id="trigger-new-invoice-btn">
+                                <i class="fa-solid fa-plus"></i> New Invoice
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Operational KPI Ribbon -->
+                    <div class="kpi-grid">
+                        <div class="kpi-card">
+                            <div class="kpi-header">
+                                <span>MONTH-TO-DATE REVENUE</span>
+                                <i class="fa-solid fa-arrow-trend-up text-nominal"></i>
+                            </div>
+                            <div class="kpi-value" id="kpi-mtd-revenue">$642,890.00</div>
+                            <div class="kpi-trend trend-up">
+                                <i class="fa-solid fa-circle-chevron-up"></i>
+                                <span>+12.4% from last month</span>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card">
+                            <div class="kpi-header">
+                                <span>TOTAL RECEIVABLES</span>
+                                <i class="fa-solid fa-hand-holding-dollar text-warning"></i>
+                            </div>
+                            <div class="kpi-value" id="kpi-total-receivables">$148,220.00</div>
+                            <div class="kpi-trend trend-warning">
+                                <i class="fa-solid fa-circle-exclamation"></i>
+                                <span>$48,910 past due 60+ days</span>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card">
+                            <div class="kpi-header">
+                                <span>ACTIVE DISPUTES</span>
+                                <i class="fa-solid fa-triangle-exclamation text-critical"></i>
+                            </div>
+                            <div class="kpi-value" id="kpi-active-disputes">3</div>
+                            <div class="kpi-trend trend-critical">
+                                <i class="fa-solid fa-triangle-exclamation"></i>
+                                <span>Requires credit notes override</span>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card">
+                            <div class="kpi-header">
+                                <span>AUTO-MATCH RATIO</span>
+                                <i class="fa-solid fa-circle-check text-transit"></i>
+                            </div>
+                            <div class="kpi-value" id="kpi-match-ratio">94.2%</div>
+                            <div class="kpi-trend trend-nominal">
+                                <i class="fa-solid fa-chevron-up"></i>
+                                <span>+1.8% fleet reconciliation</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Visual Analytics Grid -->
+                    <div class="dashboard-split">
+                        <!-- Left: Monthly Cash Flow (SVG Drawing) -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h2>Revenue vs Operational Payouts</h2>
+                                <span class="badge-pill nominal">YTD Performance</span>
+                            </div>
+                            <div class="chart-container">
+                                <!-- Interactive SVG Chart Grid -->
+                                <svg class="svg-chart" viewBox="0 0 500 200">
+                                    <defs>
+                                        <linearGradient id="revenue-grad" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="0%" stop-color="var(--color-nominal)" stop-opacity="0.3"/>
+                                            <stop offset="100%" stop-color="var(--color-nominal)" stop-opacity="0.0"/>
+                                        </linearGradient>
+                                        <linearGradient id="payout-grad" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="0%" stop-color="var(--color-transit)" stop-opacity="0.3"/>
+                                            <stop offset="100%" stop-color="var(--color-transit)" stop-opacity="0.0"/>
+                                        </linearGradient>
+                                    </defs>
+                                    
+                                    <!-- Grid lines -->
+                                    <line x1="40" y1="20" x2="480" y2="20" stroke="var(--border-color)" stroke-dasharray="4"/>
+                                    <line x1="40" y1="70" x2="480" y2="70" stroke="var(--border-color)" stroke-dasharray="4"/>
+                                    <line x1="40" y1="120" x2="480" y2="120" stroke="var(--border-color)" stroke-dasharray="4"/>
+                                    <line x1="40" y1="170" x2="480" y2="170" stroke="var(--border-color)" stroke-width="1.5"/>
+
+                                    <!-- Chart Paths -->
+                                    <path d="M 40 130 Q 120 70, 200 80 T 360 40 T 480 30" fill="none" stroke="var(--color-nominal)" stroke-width="3" />
+                                    <path d="M 40 130 Q 120 70, 200 80 T 360 40 T 480 30 L 480 170 L 40 170 Z" fill="url(#revenue-grad)" />
+
+                                    <path d="M 40 150 Q 120 120, 200 130 T 360 90 T 480 85" fill="none" stroke="var(--color-transit)" stroke-width="3" />
+                                    <path d="M 40 150 Q 120 120, 200 130 T 360 90 T 480 85 L 480 170 L 40 170 Z" fill="url(#payout-grad)" />
+
+                                    <!-- Dots -->
+                                    <circle cx="200" cy="80" r="5" fill="var(--color-nominal)"/>
+                                    <circle cx="360" cy="40" r="5" fill="var(--color-nominal)"/>
+                                    <circle cx="480" cy="30" r="5" fill="var(--color-nominal)"/>
+                                </svg>
+                                <div class="chart-legend">
+                                    <span class="legend-item"><span class="legend-color nominal"></span>Gross Billings</span>
+                                    <span class="legend-item"><span class="legend-color transit"></span>Carrier Payouts</span>
+                                    <span class="legend-item"><span class="legend-color warning"></span>Disputed Held</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right: Approvals Workflow Desk -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h2>Pending Approvals Queue</h2>
+                                <span class="badge-pill warning" id="approvals-count-badge">3 Tasks</span>
+                            </div>
+                            <div class="approvals-list" id="approvals-list-container">
+                                <!-- Loaded dynamically via JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========================================== -->
+                <!-- TAB 2: INVOICE MANAGEMENT -->
+                <!-- ========================================== -->
+                <div id="invoices-view" class="viewport-view">
+                    <div class="page-title-row">
+                        <div>
+                            <h1>Billing & Invoice Registry</h1>
+                            <p class="page-subtitle">Search, filter, and batch export structured freight declarations</p>
+                        </div>
+                    </div>
+
+                    <!-- Search & Filter Controls -->
+                    <div class="card filter-card">
+                        <div class="filter-row">
+                            <div class="search-input-group">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <input type="text" id="invoice-search-filter" placeholder="Filter by customer, ID, or country...">
+                            </div>
+                            <div class="filter-actions-group">
+                                <select id="filter-invoice-status">
+                                    <option value="ALL">All Statuses</option>
+                                    <option value="PAID">Paid</option>
+                                    <option value="PENDING">Pending</option>
+                                    <option value="OVERDUE">Overdue</option>
+                                    <option value="DISPUTED">Disputed</option>
+                                </select>
+                                <button class="btn secondary" id="btn-export-statement">
+                                    <i class="fa-solid fa-download"></i> Export Statement
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Invoice Registry Table -->
+                    <div class="card table-card">
+                        <div class="table-responsive">
+                            <table class="high-density-table" id="invoice-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 40px;"><input type="checkbox" id="select-all-invoices"></th>
+                                        <th>INVOICE ID</th>
+                                        <th>CUSTOMER ACCOUNT</th>
+                                        <th>BOOKING REF</th>
+                                        <th>ROUTE STREAM</th>
+                                        <th class="text-right">TOTAL AMOUNT</th>
+                                        <th>DUE DATE</th>
+                                        <th>STATUS</th>
+                                        <th class="text-center">ACTIONS</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="invoice-table-body">
+                                    <!-- Rendered dynamically via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========================================== -->
+                <!-- TAB 3: INVOICE DETAILS VIEW -->
+                <!-- ========================================== -->
+                <div id="invoice-details-view" class="viewport-view">
+                    <div class="page-title-row">
+                        <div>
+                            <h1>Invoice Specification Ledger</h1>
+                            <p class="page-subtitle" id="invoice-subtitle-detail">Detailed breakdown of freight itemization, ancillary costs, and audit logs</p>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn secondary" id="details-print-btn">
+                                <i class="fa-solid fa-print"></i> Download Statement
+                            </button>
+                            <button class="btn critical" id="details-dispute-btn">
+                                <i class="fa-solid fa-handshake-angle"></i> Raise Dispute
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Detail Summary Split Grid -->
+                    <div class="invoice-details-grid">
+                        
+                        <!-- Left Column: Charges Breakdown -->
+                        <div class="details-left">
+                            <div class="card billing-card-detail">
+                                <div class="billing-detail-header">
+                                    <div class="brand-sub">
+                                        <i class="fa-solid fa-scale-balanced"></i>
+                                        <span>SATTAR EXIM LLP TRANSIT BILLING</span>
+                                    </div>
+                                    <span class="invoice-status-pill nominal" id="detail-status-badge">PAID</span>
+                                </div>
+
+                                <div class="billing-meta-grid">
+                                    <div>
+                                        <label>INVOICE ID</label>
+                                        <div class="meta-val" id="detail-invoice-id">INV-2026-8911</div>
+                                    </div>
+                                    <div>
+                                        <label>ISSUE DATE</label>
+                                        <div class="meta-val" id="detail-issue-date">2026-05-10</div>
+                                    </div>
+                                    <div>
+                                        <label>CUSTOMER PROFILE</label>
+                                        <div class="meta-val" id="detail-client-name">Apex Global Logistics Ltd (APX-702)</div>
+                                    </div>
+                                    <div>
+                                        <label>ASSOCIATED BOOKING</label>
+                                        <div class="meta-val" id="detail-booking-id">BKG-9011</div>
+                                    </div>
+                                </div>
+
+                                <div class="table-responsive" style="margin-top: 24px;">
+                                    <table class="itemized-charges-table">
+                                        <thead>
+                                            <tr>
+                                                <th>CHARGE CODE</th>
+                                                <th>DESCRIPTION</th>
+                                                <th>UNIT RATE</th>
+                                                <th class="text-right">QTY</th>
+                                                <th class="text-right">TAX RATE</th>
+                                                <th class="text-right">TOTAL</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="detail-charges-body">
+                                            <!-- Dyn Load -->
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="detail-totals-container">
+                                    <div class="totals-row">
+                                        <span>Base Freight Net:</span>
+                                        <span id="detail-total-net">$0.00</span>
+                                    </div>
+                                    <div class="totals-row">
+                                        <span>Ancillaries & Surcharges:</span>
+                                        <span id="detail-total-surcharges">$0.00</span>
+                                    </div>
+                                    <div class="totals-row">
+                                        <span>VAT / GST (Taxes):</span>
+                                        <span id="detail-total-tax">$0.00</span>
+                                    </div>
+                                    <div class="totals-row grand-total">
+                                        <span>Grand Total (USD):</span>
+                                        <span id="detail-total-grand">$0.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Audit Logs & Active Disputes -->
+                        <div class="details-right">
+                            <div class="card details-audit-card">
+                                <h2>Auditable Actions Timeline</h2>
+                                <div class="audit-timeline" id="detail-audit-timeline">
+                                    <!-- Dynamic Timeline elements -->
+                                </div>
+                            </div>
+
+                            <!-- Dispute resolution widget (Conditionally shown based on status) -->
+                            <div class="card dispute-widget-card" id="active-dispute-section" style="display: none;">
+                                <div class="widget-header">
+                                    <h3>Active Billing Dispute</h3>
+                                    <span class="badge critical">CRITICAL REASON</span>
+                                </div>
+                                <p class="dispute-explanation" id="dispute-reason-text">Client claims base ocean freight mismatch (-$400 variance).</p>
+                                <div class="form-group" style="margin-top: 16px;">
+                                    <label>ADJUSTMENT ACTION</label>
+                                    <textarea id="dispute-override-notes" placeholder="Specify refund, discount, or reject override notes..."></textarea>
+                                </div>
+                                <div class="action-buttons-row" style="margin-top: 12px; display: flex; gap: 8px;">
+                                    <button class="btn secondary btn-sm" id="dispute-reject-btn" style="flex: 1;">Reject Claim</button>
+                                    <button class="btn nominal btn-sm" id="dispute-approve-credit-btn" style="flex: 1;">Issue Credit Note</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- ========================================== -->
+                <!-- TAB 4: PAYMENT TRACKING -->
+                <!-- ========================================== -->
+                <div id="payments-view" class="viewport-view">
+                    <div class="page-title-row">
+                        <div>
+                            <h1>Payment Verification Desk</h1>
+                            <p class="page-subtitle">Incoming transfers ledger, bank statement matching, and refund approvals</p>
+                        </div>
+                    </div>
+
+                    <!-- Split Panel: Auto Match Suggestions & Transactions List -->
+                    <div class="dashboard-split flex-vertical">
+                        
+                        <!-- Auto Reconciliation helper -->
+                        <div class="card match-desk-card">
+                            <div class="card-header">
+                                <h2>Bank Reconciliation Match Room</h2>
+                                <span class="badge warning" id="unreconciled-bank-badge">2 Unmatched Wires</span>
+                            </div>
+                            <div class="reconcile-split-grid" id="reconcile-split-container">
+                                <!-- Reconcile items dynamic -->
+                            </div>
+                        </div>
+
+                        <!-- Full Transaction Registry -->
+                        <div class="card ledger-card">
+                            <div class="card-header">
+                                <h2>Reconciled Transaction Log</h2>
+                                <div class="search-input-group">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                    <input type="text" id="txn-search-input" placeholder="Search reference code or customer...">
+                                </div>
+                            </div>
+                            <div class="table-responsive" style="margin-top: 16px;">
+                                <table class="high-density-table" id="txn-table">
+                                    <thead>
+                                        <tr>
+                                            <th>TXN REFERENCE</th>
+                                            <th>TIMESTAMP</th>
+                                            <th>CUSTOMER ACCOUNT</th>
+                                            <th>PAYMENT ROUTE</th>
+                                            <th class="text-right">TRANSFERRED</th>
+                                            <th>MATCHED INVOICE</th>
+                                            <th>INTEGRITY STATUS</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="txn-table-body">
+                                        <!-- Dyn Load -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========================================== -->
+                <!-- TAB 5: OUTSTANDING DUES -->
+                <!-- ========================================== -->
+                <div id="outstanding-view" class="viewport-view">
+                    <div class="page-title-row">
+                        <div>
+                            <h1>Outstanding Receivables & Aging</h1>
+                            <p class="page-subtitle">Aging account brackets, collections management, and dunning notifications</p>
+                        </div>
+                    </div>
+
+                    <!-- Aging Analysis Grid -->
+                    <div class="aging-analysis-grid">
+                        <div class="aging-box total">
+                            <span class="box-title">Total Outstanding</span>
+                            <span class="box-val" id="aging-total-outstanding">$148,220.00</span>
+                        </div>
+                        <div class="aging-box bucket-1">
+                            <span class="box-title">0 - 30 Days</span>
+                            <span class="box-val" id="aging-bucket-1">$68,910.00</span>
+                        </div>
+                        <div class="aging-box bucket-2">
+                            <span class="box-title">31 - 60 Days</span>
+                            <span class="box-val" id="aging-bucket-2">$30,400.00</span>
+                        </div>
+                        <div class="aging-box bucket-3 warning">
+                            <span class="box-title">61 - 90 Days</span>
+                            <span class="box-val" id="aging-bucket-3">$24,310.00</span>
+                        </div>
+                        <div class="aging-box bucket-4 critical">
+                            <span class="box-title">90+ Overdue</span>
+                            <span class="box-val" id="aging-bucket-4">$24,600.00</span>
+                        </div>
+                    </div>
+
+                    <!-- Receivables aging table -->
+                    <div class="card table-card" style="margin-top: 24px;">
+                        <div class="card-header">
+                            <h2>Aging Balance Ledger by Client Account</h2>
+                        </div>
+                        <div class="table-responsive" style="margin-top: 16px;">
+                            <table class="high-density-table" id="aging-table">
+                                <thead>
+                                    <tr>
+                                        <th>CUSTOMER ACCOUNT</th>
+                                        <th class="text-right">TOTAL AR</th>
+                                        <th class="text-right">0-30 DAYS</th>
+                                        <th class="text-right">31-60 DAYS</th>
+                                        <th class="text-right">61-90 DAYS</th>
+                                        <th class="text-right">90+ DAYS</th>
+                                        <th>DUNNING STATUS</th>
+                                        <th class="text-center">ESCALATION ACTIONS</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="aging-table-body">
+                                    <!-- Dyn Load -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </main>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- INTERACTIVE MODALS & SIDE DRAWERS -->
+    <!-- ========================================== -->
+
+    <!-- Modal 1: Freight Cost Calculator -->
+    <div class="modal-overlay" id="calc-modal">
+        <div class="modal-content">
+            <div class="modal-title">Interactive Freight Charge Estimator</div>
+            <p class="modal-desc">Simulate volumetric transport quotes, fuel ratios, and taxes.</p>
+            
+            <div class="modal-form-grid">
+                <div class="form-group">
+                    <label for="calc-origin">ORIGIN NODE</label>
+                    <select id="calc-origin" class="modal-input">
+                        <option value="SHA">Shanghai Terminal (SHA)</option>
+                        <option value="LAX">Port of Los Angeles (LAX)</option>
+                        <option value="ROT">Port of Rotterdam (ROT)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="calc-dest">DESTINATION NODE</label>
+                    <select id="calc-dest" class="modal-input">
+                        <option value="ROT">Port of Rotterdam (ROT)</option>
+                        <option value="LAX">Port of Los Angeles (LAX)</option>
+                        <option value="SHA">Shanghai Terminal (SHA)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="calc-weight">TOTAL CARGO WEIGHT (TONS)</label>
+                    <input type="number" id="calc-weight" class="modal-input" value="10" min="1">
+                </div>
+                <div class="form-group">
+                    <label for="calc-vol">CARGO VOLUME (CBM)</label>
+                    <input type="number" id="calc-vol" class="modal-input" value="25" min="1">
+                </div>
+            </div>
+
+            <!-- Calculated Quote Output -->
+            <div class="calculator-results-box" id="calc-results-section" style="display: none;">
+                <h4>Estimated Pricing Details</h4>
+                <div class="results-grid">
+                    <div class="res-item"><span>Ocean Freight Rate:</span><strong id="calc-res-base">$0.00</strong></div>
+                    <div class="res-item"><span>Ancillary Surcharge:</span><strong id="calc-res-surcharges">$0.00</strong></div>
+                    <div class="res-item"><span>GST/VAT Tax Estimate:</span><strong id="calc-res-tax">$0.00</strong></div>
+                    <div class="res-item total"><span>Estimated Bill:</span><strong id="calc-res-total">$0.00</strong></div>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn secondary" id="calc-modal-cancel">Close</button>
+                <button class="btn primary" id="calc-modal-calculate">Estimate Cost</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 2: New Manual Invoice Wizard -->
+    <div class="modal-overlay" id="new-invoice-modal">
+        <div class="modal-content large">
+            <div class="modal-title">Issue Customer Freight Invoice</div>
+            <p class="modal-desc">Create direct financial ledger updates for customs or operations.</p>
+            
+            <div class="modal-form-grid">
+                <div class="form-group col-span-2">
+                    <label for="new-inv-customer">CUSTOMER ACCOUNT PROFILE</label>
+                    <select id="new-inv-customer" class="modal-input">
+                        <option value="APX">Apex Global Logistics Ltd (APX-702)</option>
+                        <option value="TRN">Trans-Pacific Industries (TRN-104)</option>
+                        <option value="EUB">Euro-Baltic Import Group (EUB-308)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="new-inv-booking">BOOKING REFERENCE</label>
+                    <input type="text" id="new-inv-booking" class="modal-input" placeholder="e.g. BKG-9014" value="BKG-9015">
+                </div>
+                <div class="form-group">
+                    <label for="new-inv-route">ROUTE (Origin -> Dest)</label>
+                    <input type="text" id="new-inv-route" class="modal-input" placeholder="e.g. SHA -> ROT" value="LAX -> ROT">
+                </div>
+                <div class="form-group">
+                    <label for="new-inv-base">BASE FREIGHT CHARGE ($)</label>
+                    <input type="number" id="new-inv-base" class="modal-input" value="1200" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="new-inv-surcharges">FUEL & ANCILLARY SURCHARGES ($)</label>
+                    <input type="number" id="new-inv-surcharges" class="modal-input" value="350" min="0">
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn secondary" id="new-invoice-cancel">Cancel</button>
+                <button class="btn primary" id="new-invoice-submit">Generate Invoice</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 3: Dunning Notice Composer -->
+    <div class="modal-overlay" id="dunning-modal">
+        <div class="modal-content">
+            <div class="modal-title">Compose Dunning Escalation Notice</div>
+            <p class="modal-desc">Dispatch payment notifications and legal ledger records to client.</p>
+            
+            <div class="form-group" style="margin-bottom: 12px;">
+                <label for="dunning-template">DURATIONAL Dun SELECTOR</label>
+                <select id="dunning-template" class="modal-input">
+                    <option value="1">Level 1 Notice: Friendly Invoice Payment Reminder</option>
+                    <option value="2">Level 2 Notice: Formal Statement Overdue Warning</option>
+                    <option value="3">Level 3 Notice: Direct Dispatch Holding Notice (Legal Hold)</option>
+                </select>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 16px;">
+                <label for="dunning-body">COMMUNICATIONS BODY</label>
+                <textarea id="dunning-body" class="modal-input" style="height: 120px; font-family: monospace; font-size: 0.8rem;"></textarea>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn secondary" id="dunning-modal-cancel">Discard</button>
+                <button class="btn primary" id="dunning-modal-send">Send Notification</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Iframe Integration Helper -->
+    <script>
+        if (window.self !== window.top) {
+            document.documentElement.classList.add('portal-mode');
+            document.body.classList.add('portal-mode');
+            // Hide sidebar and adjust layout
+            const sidebar = document.querySelector('.sidebar');
+            if (sidebar) sidebar.style.display = 'none';
+            const container = document.querySelector('.hub-container');
+            if (container) container.style.display = 'block';
+            const workspace = document.querySelector('.main-workspace');
+            if (workspace) workspace.style.width = '100%';
+        }
+    </script>
+    <!-- Load Dedicated Javascript File -->
+    <script src="../js/myfinance.js"></script>
+</body>
+
+</html>

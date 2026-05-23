@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google" content="notranslate">
+    <title>MyCustoms - SATTAR EXIM LLP Customs Clearance Console</title>
+    <!-- Google Fonts for Modern Premium Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Dedicated Style Sheet -->
+    <link rel="stylesheet" href="../css/Management/mycustoms.css">
+</head>
+
+<body>
+
+    <div class="hub-container">
+        
+        <!-- ========================================== -->
+        <!-- COLLAPSIBLE SIDEBAR NAV -->
+        <!-- ========================================== -->
+        <aside class="sidebar">
+            <div>
+                <div class="brand">
+                    <i class="fa-solid fa-stamp"></i>
+                    <span>SATTAR EXIM LLP CUSTOMS</span>
+                </div>
+                
+                <nav class="nav-group">
+                    <div class="nav-item active" data-tab="dashboard">
+                        <i class="fa-solid fa-gauge-high"></i>
+                        <span>Customs Dashboard</span>
+                    </div>
+                    <div class="nav-item" data-tab="declarations">
+                        <i class="fa-solid fa-file-shield"></i>
+                        <span>Declaration Management</span>
+                        <span class="badge warning" id="pending-declarations-badge">5</span>
+                    </div>
+                    <div class="nav-item" data-tab="declaration-details">
+                        <i class="fa-solid fa-microscope"></i>
+                        <span>Declaration Details</span>
+                    </div>
+                    <div class="nav-item" data-tab="clearance">
+                        <i class="fa-solid fa-truck-ramp-box"></i>
+                        <span>Clearance Tracking</span>
+                    </div>
+                    <div class="nav-item" data-tab="documents">
+                        <i class="fa-solid fa-vault"></i>
+                        <span>Document Center</span>
+                        <span class="badge transit" id="doc-queries-badge">3</span>
+                    </div>
+                </nav>
+            </div>
+
+            <div class="sidebar-footer">
+                <a href="../index.html" class="back-link">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Exit to Main Site</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- ========================================== -->
+        <!-- MAIN OPERATIONAL WORKSPACE -->
+        <!-- ========================================== -->
+        <main class="main-workspace">
+            
+            <!-- Global Master Header -->
+            <header class="master-header">
+                <div class="header-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="global-customs-search" placeholder="Search Declaration ID, Waybill, Container, HS Code...">
+                </div>
+
+                <div class="header-actions">
+                    <!-- Customs Authority Selector -->
+                    <div class="header-select-group">
+                        <i class="fa-solid fa-landmark"></i>
+                        <select id="authority-switcher">
+                            <option value="US_CBP">US CBP</option>
+                            <option value="EU_CUSTOMS">EU Customs</option>
+                            <option value="IN_CBIC">India CBIC</option>
+                            <option value="SG_CUSTOMS">Singapore Customs</option>
+                        </select>
+                    </div>
+
+                    <!-- Active Holds Alert -->
+                    <div class="holds-alert-bell pulsing" id="holds-alert-trigger">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <span class="holds-count" id="active-holds-count">3 Holds</span>
+                    </div>
+                    
+                    <div class="user-profile">
+                        <div class="avatar">AJ</div>
+                        <span class="user-name">Aditya Jaiswal</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dynamic Viewport -->
+            <section class="page-viewport">
+
+                <!-- ========================================== -->
+                <!-- TAB 1: CUSTOMS DASHBOARD -->
+                <!-- ========================================== -->
+                <div id="dashboard-view" class="viewport-view active">
+                    <div class="page-title-row">
+                        <div>
+                            <h1>Clearance Control Room</h1>
+                            <p class="page-subtitle">Active customs declarations, duty liabilities, inspection pipeline, and regulatory holds</p>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn secondary" id="trigger-hs-lookup-btn">
+                                <i class="fa-solid fa-barcode"></i> HS Code Lookup
+                            </button>
+                            <button class="btn primary" id="trigger-new-declaration-btn">
+                                <i class="fa-solid fa-plus"></i> New Declaration
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Clearance KPI Ribbon -->
+                    <div class="kpi-grid">
+                        <div class="kpi-card">
+                            <div class="kpi-header">
+                                <span>ACTIVE DECLARATIONS</span>
+                                <i class="fa-solid fa-file-shield text-transit"></i>
+                            </div>
+                            <div class="kpi-value" id="kpi-active-declarations">24</div>
+                            <div class="kpi-trend trend-nominal">
+                                <i class="fa-solid fa-circle-chevron-up"></i>
+                                <span>6 cleared today</span>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card">
+                            <div class="kpi-header">
+                                <span>AVG. CLEARANCE TIME</span>
+                                <i class="fa-solid fa-clock text-nominal"></i>
+                            </div>
+                            <div class="kpi-value" id="kpi-avg-clearance">2.4 hrs</div>
+                            <div class="kpi-trend trend-up">
+                                <i class="fa-solid fa-circle-chevron-up"></i>
+                                <span>-18min vs last week</span>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card">
+                            <div class="kpi-header">
+                                <span>TOTAL DUTY LIABILITY</span>
+                                <i class="fa-solid fa-coins text-warning"></i>
+                            </div>
+                            <div class="kpi-value" id="kpi-duty-liability">$84,620</div>
+                            <div class="kpi-trend trend-warning">
+                                <i class="fa-solid fa-circle-exclamation"></i>
+                                <span>$22,400 pending assessment</span>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card">
+                            <div class="kpi-header">
+                                <span>ACTIVE HOLDS</span>
+                                <i class="fa-solid fa-ban text-critical"></i>
+                            </div>
+                            <div class="kpi-value" id="kpi-active-holds">3</div>
+                            <div class="kpi-trend trend-critical">
+                                <i class="fa-solid fa-triangle-exclamation"></i>
+                                <span>Requires immediate action</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Clearance Status Flow Pipeline -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Clearance Status Pipeline</h2>
+                            <span class="badge-pill transit">Live Flow</span>
+                        </div>
+                        <div class="pipeline-container" id="clearance-pipeline">
+                            <div class="pipeline-stage">
+                                <i class="fa-solid fa-file-lines stage-icon"></i>
+                                <span class="stage-label">Doc Review</span>
+                                <span class="stage-count" id="pipeline-doc-review">8</span>
+                            </div>
+                            <div class="pipeline-stage active-stage">
+                                <i class="fa-solid fa-calculator stage-icon"></i>
+                                <span class="stage-label">Tariff Valuation</span>
+                                <span class="stage-count" id="pipeline-tariff">5</span>
+                            </div>
+                            <div class="pipeline-stage">
+                                <i class="fa-solid fa-magnifying-glass stage-icon"></i>
+                                <span class="stage-label">Inspection</span>
+                                <span class="stage-count" id="pipeline-inspection">4</span>
+                            </div>
+                            <div class="pipeline-stage">
+                                <i class="fa-solid fa-money-check-dollar stage-icon"></i>
+                                <span class="stage-label">Duty Payment</span>
+                                <span class="stage-count" id="pipeline-duty">4</span>
+                            </div>
+                            <div class="pipeline-stage">
+                                <i class="fa-solid fa-door-open stage-icon"></i>
+                                <span class="stage-label">Release</span>
+                                <span class="stage-count" id="pipeline-release">3</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Split: Critical Alerts + HS Code Finder -->
+                    <div class="dashboard-split">
+                        <!-- Critical Alerts Queue -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h2>Critical Holds & Alerts Queue</h2>
+                                <span class="badge-pill critical" id="holds-queue-count">3 Active</span>
+                            </div>
+                            <div class="alerts-queue" id="alerts-queue-container">
+                                <!-- Loaded dynamically via JS -->
+                            </div>
+                        </div>
+
+                        <!-- HS Code Finder Widget -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h2>Commodity HS Code Finder</h2>
+                                <span class="badge-pill nominal">Quick Lookup</span>
+                            </div>
+                            <div class="hs-lookup-widget" id="hs-lookup-widget">
+                                <div class="hs-search-bar">
+                                    <input type="text" id="hs-search-input" placeholder="Search commodity (e.g. 'electronics', 'textiles')...">
+                                    <button class="btn primary btn-sm" id="hs-search-btn">
+                                        <i class="fa-solid fa-search"></i> Find
+                                    </button>
+                                </div>
+                                <table class="hs-results-table">
+                                    <thead>
+                                        <tr>
+                                            <th>HS CODE</th>
+                                            <th>COMMODITY</th>
+                                            <th>DUTY %</th>
+                                            <th>RESTRICTIONS</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="hs-results-body">
+                                        <!-- Populated via JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========================================== -->
+                <!-- TAB 2: DECLARATION MANAGEMENT -->
+                <!-- ========================================== -->
+                <div id="declarations-view" class="viewport-view">
+                    <div class="page-title-row">
+                        <div>
+                            <h1>Regulatory Declaration Registry</h1>
+                            <p class="page-subtitle">Review, audit, generate, and submit formal import/export customs declarations</p>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn secondary" id="btn-batch-submit">
+                                <i class="fa-solid fa-paper-plane"></i> Batch Submit
+                            </button>
+                            <button class="btn primary" id="btn-new-declaration-registry">
+                                <i class="fa-solid fa-plus"></i> New Declaration
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Search & Filter Controls -->
+                    <div class="card filter-card">
+                        <div class="filter-row">
+                            <div class="search-input-group">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <input type="text" id="declaration-search-filter" placeholder="Filter by declaration ID, consignee, port code...">
+                            </div>
+                            <div class="filter-actions-group">
+                                <select id="filter-declaration-status">
+                                    <option value="ALL">All Statuses</option>
+                                    <option value="DRAFT">Draft</option>
+                                    <option value="UNDER_REVIEW">Under Review</option>
+                                    <option value="CLEARED">Cleared</option>
+                                    <option value="QUERY">Query Issued</option>
+                                    <option value="HOLD">Hold</option>
+                                    <option value="REJECTED">Rejected</option>
+                                </select>
+                                <select id="filter-declaration-type">
+                                    <option value="ALL">All Types</option>
+                                    <option value="IMPORT">Import</option>
+                                    <option value="EXPORT">Export</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Declaration Registry Table -->
+                    <div class="card table-card">
+                        <div class="table-responsive">
+                            <table class="high-density-table" id="declaration-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 40px;"><input type="checkbox" id="select-all-declarations"></th>
+                                        <th>DECLARATION ID</th>
+                                        <th>SHIPMENT & MODE</th>
+                                        <th>DECLARANT / CONSIGNEE</th>
+                                        <th>PORT OF ENTRY</th>
+                                        <th class="text-right">VALUATION</th>
+                                        <th>STATUS</th>
+                                        <th class="text-center">ACTIONS</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="declaration-table-body">
+                                    <!-- Rendered dynamically via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========================================== -->
+                <!-- TAB 3: DECLARATION DETAILS -->
+                <!-- ========================================== -->
+                <div id="declaration-details-view" class="viewport-view">
+                    <div class="page-title-row">
+                        <div>
+                            <h1>Declaration Specification Desk</h1>
+                            <p class="page-subtitle" id="declaration-detail-subtitle">360° cargo valuation, HS classification breakdown, compliance checks, and audit trail</p>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn secondary" id="detail-upload-doc-btn">
+                                <i class="fa-solid fa-upload"></i> Upload Document
+                            </button>
+                            <button class="btn warning-btn" id="detail-amend-btn">
+                                <i class="fa-solid fa-pen-to-square"></i> Amend Declaration
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Detail Split Grid -->
+                    <div class="declaration-details-grid">
+                        
+                        <!-- Left: Main Specification -->
+                        <div class="details-left">
+                            <div class="card detail-card-main">
+                                <div class="detail-banner">
+                                    <div class="brand-sub">
+                                        <i class="fa-solid fa-stamp"></i>
+                                        <span>SATTAR EXIM LLP CUSTOMS DECLARATION</span>
+                                    </div>
+                                    <span class="status-pill cleared" id="detail-status-badge">CLEARED</span>
+                                </div>
+
+                                <div class="detail-meta-grid">
+                                    <div>
+                                        <label>DECLARATION ID</label>
+                                        <div class="meta-val" id="detail-dec-id">DEC-2026-9041</div>
+                                    </div>
+                                    <div>
+                                        <label>SHIPMENT REFERENCE</label>
+                                        <div class="meta-val" id="detail-shipment-id">SHP-8820</div>
+                                    </div>
+                                    <div>
+                                        <label>DECLARANT / CONSIGNEE</label>
+                                        <div class="meta-val" id="detail-declarant">Apex Global Logistics Ltd</div>
+                                    </div>
+                                    <div>
+                                        <label>PORT OF ENTRY</label>
+                                        <div class="meta-val" id="detail-port">USLAX</div>
+                                    </div>
+                                </div>
+
+                                <!-- Line-Item HS Classification Breakdown -->
+                                <div class="table-responsive" style="margin-top: 24px;">
+                                    <table class="hs-results-table">
+                                        <thead>
+                                            <tr>
+                                                <th>HS CODE</th>
+                                                <th>COMMODITY DESCRIPTION</th>
+                                                <th>ORIGIN</th>
+                                                <th class="text-right">CUSTOMS VALUE</th>
+                                                <th class="text-right">TARIFF %</th>
+                                                <th class="text-right">EST. DUTY</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="detail-hs-body">
+                                            <!-- Dyn Load -->
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- Duty Totals -->
+                                <div style="width: 320px; margin-left: auto; margin-top: 24px; display: flex; flex-direction: column; gap: 8px;">
+                                    <div style="display: flex; justify-content: space-between; font-size: 0.875rem; color: var(--text-secondary);">
+                                        <span>Total Customs Value:</span>
+                                        <span id="detail-total-value">$0.00</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; font-size: 0.875rem; color: var(--text-secondary);">
+                                        <span>Total Estimated Duty:</span>
+                                        <span id="detail-total-duty">$0.00</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; font-size: 1.1rem; font-weight: 800; color: var(--text-primary); border-top: 2px solid var(--border-color); padding-top: 12px;">
+                                        <span>Total Payable:</span>
+                                        <span id="detail-total-payable">$0.00</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Compliance Checklist Panel -->
+                            <div class="card" style="margin-top: 24px;">
+                                <div class="card-header">
+                                    <h2>Compliance Verification Checklist</h2>
+                                    <span class="badge-pill nominal" id="compliance-score-badge">5/6 Passed</span>
+                                </div>
+                                <div class="compliance-checklist" id="compliance-checklist-container">
+                                    <!-- Dynamic checklist items -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right: Audit Logs & Discussion -->
+                        <div class="details-right">
+                            <div class="card details-audit-card">
+                                <h2>Declaration Activity Audit Log</h2>
+                                <div class="audit-timeline" id="detail-audit-timeline">
+                                    <!-- Dynamic Timeline elements -->
+                                </div>
+                            </div>
+
+                            <!-- Query Resolution Widget (Conditionally shown) -->
+                            <div class="card" id="query-resolution-section" style="display: none; margin-top: 16px; border-color: var(--color-transit);">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                                    <h3 style="font-size: 0.95rem; color: var(--color-transit); font-weight: 700;">Active Query from Customs</h3>
+                                    <span class="badge transit">ACTION REQUIRED</span>
+                                </div>
+                                <p id="query-reason-text" style="font-size: 0.8rem; line-height: 1.4; color: var(--text-secondary);">Officer requests commercial invoice verification.</p>
+                                <div class="form-group" style="margin-top: 16px;">
+                                    <label>COMPLIANCE RESPONSE</label>
+                                    <textarea id="query-response-notes" placeholder="Enter compliance statement or attach supporting evidence..."></textarea>
+                                </div>
+                                <div style="margin-top: 12px; display: flex; gap: 8px;">
+                                    <button class="btn secondary btn-sm" id="query-escalate-btn" style="flex: 1;">Escalate to Broker</button>
+                                    <button class="btn nominal btn-sm" id="query-resolve-btn" style="flex: 1;">Submit Response</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========================================== -->
+                <!-- TAB 4: CLEARANCE TRACKING -->
+                <!-- ========================================== -->
+                <div id="clearance-view" class="viewport-view">
+                    <div class="page-title-row">
+                        <div>
+                            <h1>Inspection & Milestone Console</h1>
+                            <p class="page-subtitle">Real-time inspection milestones, scanning telemetry, and port gate event logs</p>
+                        </div>
+                    </div>
+
+                    <!-- Clearance Milestone Stepper -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Clearance Milestone Tracker</h2>
+                            <span class="badge-pill transit" id="tracking-dec-label">DEC-2026-9041</span>
+                        </div>
+                        <div class="milestone-stepper" id="milestone-stepper-container">
+                            <!-- Dynamic milestone steps -->
+                        </div>
+                    </div>
+
+                    <!-- Split: Scan Details + Port Event Log -->
+                    <div class="dashboard-split equal">
+                        <!-- Scan & Audit Details -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h2>Physical Inspection Telemetry</h2>
+                                <span class="badge-pill warning" id="scan-status-badge">In Queue</span>
+                            </div>
+                            <div class="scan-card" id="scan-details-container">
+                                <!-- Loaded dynamically -->
+                            </div>
+                        </div>
+
+                        <!-- Port Gate Event Ledger -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h2>Port Gate Event Ledger</h2>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="high-density-table" id="port-events-table">
+                                    <thead>
+                                        <tr>
+                                            <th>TIMESTAMP</th>
+                                            <th>LOCATION</th>
+                                            <th>EVENT</th>
+                                            <th>AGENCY</th>
+                                            <th>STATUS</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="port-events-body">
+                                        <!-- Dyn Load -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Escalation Section -->
+                    <div class="card" id="scan-escalation-card" style="display: none;">
+                        <div class="card-header">
+                            <h2 style="color: var(--color-critical);">Report Inspection Hold / Escalation</h2>
+                        </div>
+                        <div class="form-group">
+                            <label>ESCALATION DESCRIPTION</label>
+                            <textarea id="escalation-notes" placeholder="Describe the inspection incident or hold reason..."></textarea>
+                        </div>
+                        <div style="margin-top: 12px; display: flex; gap: 10px;">
+                            <button class="btn secondary" id="cancel-escalation-btn">Cancel</button>
+                            <button class="btn critical" id="submit-escalation-btn">
+                                <i class="fa-solid fa-flag"></i> Submit Escalation Report
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========================================== -->
+                <!-- TAB 5: DOCUMENT CENTER -->
+                <!-- ========================================== -->
+                <div id="documents-view" class="viewport-view">
+                    <div class="page-title-row">
+                        <div>
+                            <h1>Regulatory Document Vault</h1>
+                            <p class="page-subtitle">Secure repository for customs documents, permits, certificates, and electronic signatures</p>
+                        </div>
+                    </div>
+
+                    <!-- Document Category Vault Grid -->
+                    <div class="doc-vault-grid" id="doc-vault-grid">
+                        <div class="doc-category-card" data-category="commercial-invoice">
+                            <i class="fa-solid fa-file-invoice doc-cat-icon"></i>
+                            <span class="doc-cat-label">Commercial Invoices</span>
+                            <span class="doc-cat-count">4 documents</span>
+                        </div>
+                        <div class="doc-category-card" data-category="packing-list">
+                            <i class="fa-solid fa-list-check doc-cat-icon"></i>
+                            <span class="doc-cat-label">Packing Lists</span>
+                            <span class="doc-cat-count">3 documents</span>
+                        </div>
+                        <div class="doc-category-card" data-category="certificate-origin">
+                            <i class="fa-solid fa-certificate doc-cat-icon"></i>
+                            <span class="doc-cat-label">Certificates of Origin</span>
+                            <span class="doc-cat-count">2 documents</span>
+                        </div>
+                        <div class="doc-category-card" data-category="import-license">
+                            <i class="fa-solid fa-id-badge doc-cat-icon"></i>
+                            <span class="doc-cat-label">Import Licenses</span>
+                            <span class="doc-cat-count">2 documents</span>
+                        </div>
+                        <div class="doc-category-card" data-category="health-cert">
+                            <i class="fa-solid fa-heart-pulse doc-cat-icon"></i>
+                            <span class="doc-cat-label">Health Certificates</span>
+                            <span class="doc-cat-count">1 document</span>
+                        </div>
+                        <div class="doc-category-card" data-category="bill-of-lading">
+                            <i class="fa-solid fa-ship doc-cat-icon"></i>
+                            <span class="doc-cat-label">Bills of Lading</span>
+                            <span class="doc-cat-count">3 documents</span>
+                        </div>
+                    </div>
+
+                    <!-- Document Vault Ledger Table -->
+                    <div class="card table-card">
+                        <div class="card-header">
+                            <h2>Document Vault Ledger</h2>
+                            <div class="search-input-group" style="width: 280px;">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <input type="text" id="doc-search-input" placeholder="Search documents...">
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="high-density-table" id="doc-table">
+                                <thead>
+                                    <tr>
+                                        <th>DOCUMENT NAME</th>
+                                        <th>CATEGORY</th>
+                                        <th>FORMAT</th>
+                                        <th>DECLARATION REF</th>
+                                        <th>VERIFICATION</th>
+                                        <th>UPLOAD DATE</th>
+                                        <th class="text-center">ACTIONS</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="doc-table-body">
+                                    <!-- Dyn Load -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Dropzone Drag & Drop Uploader -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Upload & OCR Processing</h2>
+                        </div>
+                        <div class="dropzone-area" id="doc-dropzone">
+                            <i class="fa-solid fa-cloud-arrow-up drop-icon"></i>
+                            <span class="drop-title">Drag & drop customs documents here</span>
+                            <span class="drop-subtitle">Supported: PDF, XML, JPEG, PNG · Max 25MB · AI-powered OCR extraction</span>
+                            <input type="file" id="doc-file-input" style="display: none;" accept=".pdf,.xml,.jpg,.jpeg,.png">
+                        </div>
+
+                        <!-- OCR Parsing Progress Panel -->
+                        <div class="ocr-panel" id="ocr-panel">
+                            <div class="ocr-header">
+                                <span class="ocr-title"><i class="fa-solid fa-robot" style="margin-right: 6px;"></i>AI Document Extraction</span>
+                                <span class="badge-pill nominal" id="ocr-status-badge">Completed</span>
+                            </div>
+                            <div class="ocr-body" id="ocr-body">
+                                <!-- Loading spinner or extracted fields -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Electronic Signature Panel -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Electronic Signature & Declaration Validation</h2>
+                        </div>
+                        <div class="signature-panel">
+                            <div class="sig-header">Broker Authorization Signature</div>
+                            <div class="sig-form-row">
+                                <div class="form-group">
+                                    <label for="sig-broker-id">BROKER LICENSE ID</label>
+                                    <input type="text" id="sig-broker-id" placeholder="e.g. BRK-2026-1104">
+                                </div>
+                                <div class="form-group">
+                                    <label for="sig-pin">AUTHORIZATION PIN</label>
+                                    <input type="password" id="sig-pin" placeholder="Enter 6-digit PIN">
+                                </div>
+                            </div>
+                            <div class="sig-checkbox-row">
+                                <input type="checkbox" id="sig-confirm-checkbox">
+                                <span>I confirm that all information in this customs declaration is accurate and complete to the best of my knowledge.</span>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn secondary" id="sig-clear-btn">Clear Form</button>
+                                <button class="btn primary" id="sig-validate-btn">
+                                    <i class="fa-solid fa-signature"></i> Validate & E-Sign
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </main>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- INTERACTIVE MODALS & OVERLAYS -->
+    <!-- ========================================== -->
+
+    <!-- Modal 1: HS Code Directory Lookup -->
+    <div class="modal-overlay" id="hs-modal">
+        <div class="modal-content large">
+            <div class="modal-title">Global HS Code Directory</div>
+            <p class="modal-desc">Search the Harmonized System commodity classification database for tariff rates and trade restrictions.</p>
+            
+            <div class="modal-form-grid">
+                <div class="form-group">
+                    <label for="hs-modal-keyword">COMMODITY KEYWORD</label>
+                    <input type="text" id="hs-modal-keyword" class="modal-input" placeholder="e.g. semiconductor, cotton, steel">
+                </div>
+                <div class="form-group">
+                    <label for="hs-modal-origin">ORIGIN COUNTRY</label>
+                    <select id="hs-modal-origin" class="modal-input">
+                        <option value="ALL">All Origins</option>
+                        <option value="CN">China (CN)</option>
+                        <option value="US">United States (US)</option>
+                        <option value="DE">Germany (DE)</option>
+                        <option value="IN">India (IN)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="table-responsive" style="margin-top: 16px; max-height: 240px; overflow-y: auto;">
+                <table class="hs-results-table">
+                    <thead>
+                        <tr>
+                            <th>HS CODE</th>
+                            <th>COMMODITY DESCRIPTION</th>
+                            <th>BASE DUTY %</th>
+                            <th>RESTRICTIONS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="hs-modal-results-body">
+                        <!-- Dynamic results -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn secondary" id="hs-modal-close">Close</button>
+                <button class="btn primary" id="hs-modal-search">
+                    <i class="fa-solid fa-search"></i> Search HS Database
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 2: New Declaration Wizard -->
+    <div class="modal-overlay" id="new-declaration-modal">
+        <div class="modal-content large">
+            <div class="modal-title">Create Customs Declaration</div>
+            <p class="modal-desc">Submit a new import/export declaration to the regulatory customs authority.</p>
+            
+            <!-- Wizard Step Indicators -->
+            <div class="wizard-steps">
+                <div class="wizard-step-indicator active" data-wizard-step="1">1. Cargo Info</div>
+                <div class="wizard-step-indicator" data-wizard-step="2">2. HS Classification</div>
+                <div class="wizard-step-indicator" data-wizard-step="3">3. Duty Valuation</div>
+                <div class="wizard-step-indicator" data-wizard-step="4">4. Documents</div>
+            </div>
+
+            <!-- Wizard Step 1: General Cargo Info -->
+            <div class="wizard-page active" id="wizard-page-1">
+                <div class="modal-form-grid">
+                    <div class="form-group">
+                        <label for="wiz-shipment-id">SHIPMENT REFERENCE</label>
+                        <input type="text" id="wiz-shipment-id" class="modal-input" placeholder="e.g. SHP-8830" value="SHP-8830">
+                    </div>
+                    <div class="form-group">
+                        <label for="wiz-type">DECLARATION TYPE</label>
+                        <select id="wiz-type" class="modal-input">
+                            <option value="IMPORT">Import Declaration</option>
+                            <option value="EXPORT">Export Declaration</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="wiz-consignee">CONSIGNEE / DECLARANT</label>
+                        <select id="wiz-consignee" class="modal-input">
+                            <option value="APX">Apex Global Logistics Ltd (APX-702)</option>
+                            <option value="TRN">Trans-Pacific Industries (TRN-104)</option>
+                            <option value="EUB">Euro-Baltic Import Group (EUB-308)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="wiz-port">PORT OF ENTRY/EXIT</label>
+                        <select id="wiz-port" class="modal-input">
+                            <option value="USLAX">Port of Los Angeles (USLAX)</option>
+                            <option value="NLRTM">Port of Rotterdam (NLRTM)</option>
+                            <option value="CNSHA">Shanghai Terminal (CNSHA)</option>
+                            <option value="SGSIN">Singapore Port (SGSIN)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wizard Step 2: HS Classification -->
+            <div class="wizard-page" id="wizard-page-2">
+                <div class="modal-form-grid">
+                    <div class="form-group">
+                        <label for="wiz-hs-code">PRIMARY HS CODE</label>
+                        <input type="text" id="wiz-hs-code" class="modal-input" placeholder="e.g. 8471.30" value="8471.30">
+                    </div>
+                    <div class="form-group">
+                        <label for="wiz-commodity">COMMODITY DESCRIPTION</label>
+                        <input type="text" id="wiz-commodity" class="modal-input" placeholder="e.g. Portable Computers" value="Portable Computing Devices">
+                    </div>
+                    <div class="form-group">
+                        <label for="wiz-origin">COUNTRY OF ORIGIN</label>
+                        <select id="wiz-origin" class="modal-input">
+                            <option value="CN">China (CN)</option>
+                            <option value="US">United States (US)</option>
+                            <option value="DE">Germany (DE)</option>
+                            <option value="JP">Japan (JP)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="wiz-qty">TOTAL UNITS</label>
+                        <input type="number" id="wiz-qty" class="modal-input" value="500" min="1">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wizard Step 3: Duty Valuation -->
+            <div class="wizard-page" id="wizard-page-3">
+                <div class="modal-form-grid">
+                    <div class="form-group">
+                        <label for="wiz-customs-value">DECLARED CUSTOMS VALUE (USD)</label>
+                        <input type="number" id="wiz-customs-value" class="modal-input" value="125000" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="wiz-freight-cost">FREIGHT & INSURANCE COST (USD)</label>
+                        <input type="number" id="wiz-freight-cost" class="modal-input" value="8500" min="0">
+                    </div>
+                    <div class="form-group col-span-2">
+                        <label for="wiz-tariff-rate">APPLICABLE TARIFF RATE (%)</label>
+                        <input type="number" id="wiz-tariff-rate" class="modal-input" value="3.9" min="0" step="0.1">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wizard Step 4: Documents -->
+            <div class="wizard-page" id="wizard-page-4">
+                <div style="text-align: center; padding: 24px; color: var(--text-muted);">
+                    <i class="fa-solid fa-file-circle-check" style="font-size: 2rem; margin-bottom: 12px; color: var(--color-nominal);"></i>
+                    <p style="font-size: 0.85rem;">Documents can be attached after submission via the Document Center tab.</p>
+                    <p style="font-size: 0.8rem; margin-top: 6px; font-weight: 600; color: var(--text-primary);">Click "Submit Declaration" to finalize entry.</p>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn secondary" id="wizard-cancel">Cancel</button>
+                <button class="btn secondary" id="wizard-prev" style="display: none;">
+                    <i class="fa-solid fa-arrow-left"></i> Previous
+                </button>
+                <button class="btn primary" id="wizard-next">
+                    Next <i class="fa-solid fa-arrow-right"></i>
+                </button>
+                <button class="btn primary" id="wizard-submit" style="display: none;">
+                    <i class="fa-solid fa-paper-plane"></i> Submit Declaration
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 3: Resolution Drawer -->
+    <div class="modal-overlay" id="resolution-modal">
+        <div class="modal-content">
+            <div class="modal-title">Customs Hold Resolution</div>
+            <p class="modal-desc">Resolve a regulatory hold by providing required documentation or corrections.</p>
+            
+            <div class="form-group">
+                <label for="resolution-hold-id">ALERT REFERENCE</label>
+                <input type="text" id="resolution-hold-id" class="modal-input" readonly value="">
+            </div>
+            <div class="form-group">
+                <label for="resolution-reason">HOLD REASON</label>
+                <input type="text" id="resolution-reason" class="modal-input" readonly value="">
+            </div>
+            <div class="form-group">
+                <label for="resolution-action">RESOLUTION ACTION / NOTES</label>
+                <textarea id="resolution-action" class="modal-input" style="height: 100px; resize: none;" placeholder="Describe the corrective action taken..."></textarea>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn secondary" id="resolution-cancel">Discard</button>
+                <button class="btn nominal" id="resolution-submit">
+                    <i class="fa-solid fa-check"></i> Mark Resolved
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Iframe Integration Helper -->
+    <script>
+        if (window.self !== window.top) {
+            document.documentElement.classList.add('portal-mode');
+            document.body.classList.add('portal-mode');
+            // Hide sidebar and adjust layout
+            const sidebar = document.querySelector('.sidebar');
+            if (sidebar) sidebar.style.display = 'none';
+            const container = document.querySelector('.hub-container');
+            if (container) container.style.display = 'block';
+            const workspace = document.querySelector('.main-workspace');
+            if (workspace) workspace.style.width = '100%';
+        }
+    </script>
+    <!-- Load Dedicated Javascript File -->
+    <script src="../js/mycustoms.js"></script>
+</body>
+
+</html>

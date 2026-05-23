@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SATTAR EXIM LLP | Secure Login</title>
+    <!-- Google Fonts: Outfit -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/login.css">
+</head>
+
+<body>
+    <div class="login-card">
+        <div class="card-header">
+            <div class="logo-area">
+                <i class="fas fa-ship"></i>
+            </div>
+            <h2>SATTAR EXIM LLP</h2>
+            <p>Enter your credentials to access your account</p>
+        </div>
+        <form id="loginForm" class="login-form">
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="username" value="" placeholder="Email Address" required>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="password" placeholder="Password" required>
+            </div>
+            <div class="form-actions">
+                <label class="remember-me">
+                    <input type="checkbox"> <span>Remember me</span>
+                </label>
+                <a href="#" class="forgot-password">Forgot Password?</a>
+            </div>
+            <button type="submit" class="btn-login">
+                <span>Login</span>
+                <i class="fas fa-arrow-right"></i>
+            </button>
+            <button type="button" class="btn-demo" onclick="demoLogin()">
+                <i class="fas fa-bolt"></i>
+                <span>Demo Login</span>
+            </button>
+        </form>
+        <div class="card-footer">
+            <a href="/" class="back-site-link"><i class="fas fa-arrow-left"></i> Back to Main Site</a>
+            <p>Don't have an account? <a href="/templates/Register.html">Sign Up</a></p>
+            <p class="copyright">© 2026 SATTAR EXIM LLP. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script>
+        // Prevent cached portal page from showing after logout
+        window.history.pushState(null, null, window.location.href);
+        window.addEventListener('popstate', function() {
+            window.history.pushState(null, null, window.location.href);
+        });
+
+        function demoLogin() {
+            document.getElementById('username').value = 'dummy@example.com';
+            document.getElementById('password').value = 'password123';
+            document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+        }
+    </script>
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const emailVal = document.getElementById("username").value;
+            const passwordVal = document.getElementById("password").value;
+
+            if (emailVal && passwordVal) {
+                fetch('/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email: emailVal, password: passwordVal })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message + " Redirecting to Portal...");
+                        window.location.href = "/portal";
+                    } else {
+                        alert(data.message || "Invalid credentials.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert("An error occurred. Make sure app.py is running and XAMPP MySQL is active.");
+                });
+            } else {
+                alert("Please fill in all fields.");
+            }
+        });
+    </script>
+</body>
+
+</html>

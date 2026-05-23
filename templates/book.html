@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Shipment</title>
+    <link rel="stylesheet" href="/css/book.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>📦 Book a Shipment</h2>
+
+    <form id="bookingForm">
+        <input type="text" id="sender" placeholder="Sender Name" required>
+        <input type="text" id="receiver" placeholder="Receiver Name" required>
+
+        <input type="text" id="origin" placeholder="Origin City" required>
+        <input type="text" id="destination" placeholder="Destination City" required>
+
+        <input type="number" id="weight" placeholder="Weight (kg)" required>
+
+        <select id="type">
+            <option value="">Select Transport Type</option>
+            <option value="Air">Air Freight</option>
+            <option value="Ocean">Ocean Freight</option>
+            <option value="Road">Road Transport</option>
+            <option value="Rail">Rail Transport</option>
+        </select>
+
+        <button type="submit">Calculate & Book</button>
+    </form>
+
+    <div id="result" class="hidden"></div>
+</div>
+
+<script src="/js/book.js"></script>
+</body>
+</html>

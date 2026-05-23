@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Portal - SATTAR EXIM LLP</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="/css/portal.css">
+</head>
+
+<body>
+
+    <div class="portal-container">
+        <!-- ========================================== -->
+        <!-- UNIFIED SIDEBAR -->
+        <!-- ========================================== -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="brand">
+                    <i class="fa-solid fa-earth-americas"></i>
+                    <span>SATTAR EXIM</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <!-- Section: Hub -->
+                <div class="nav-section">
+                    <div class="section-header" data-toggle="hub">
+                        <i class="fa-solid fa-house-laptop"></i>
+                        <span>Operations Hub</span>
+                        <i class="fa-solid fa-chevron-down chevron"></i>
+                    </div>
+                    <div class="section-content open" id="hub-links">
+                        <a href="javascript:void(0)" class="nav-link active" data-url="/Managment_Tools.html/Hub.html" data-tab="dashboard">
+                            <i class="fa-solid fa-chart-line"></i> Central Control
+                        </a>
+                        <a href="javascript:void(0)" class="nav-link" data-url="/Managment_Tools.html/Hub.html" data-tab="monitoring">
+                            <i class="fa-solid fa-truck-ramp-box"></i> Shipment Monitoring
+                        </a>
+                        <a href="javascript:void(0)" class="nav-link" data-url="/Managment_Tools.html/Hub.html" data-tab="alerts">
+                            <i class="fa-solid fa-triangle-exclamation"></i> Exceptions Center
+                        </a>
+                        <a href="javascript:void(0)" class="nav-link" data-url="/Managment_Tools.html/Hub.html" data-tab="analytics">
+                            <i class="fa-solid fa-chart-pie"></i> Performance SLA
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Section: Manage Bookings -->
+                <div class="nav-section">
+                    <div class="section-header" data-toggle="bookings">
+                        <i class="fa-solid fa-calendar-check"></i>
+                        <span>Manage Bookings</span>
+                        <i class="fa-solid fa-chevron-down chevron"></i>
+                    </div>
+                    <div class="section-content" id="bookings-links">
+                        <a href="javascript:void(0)" class="nav-link" data-url="/Managment_Tools.html/Manage_Booking.html" data-tab="dashboard">
+                            <i class="fa-solid fa-clipboard-list"></i> Control Ledger
+                        </a>
+                        <a href="javascript:void(0)" class="nav-link" data-url="/Managment_Tools.html/Manage_Booking.html" data-tab="create-wizard">
+                            <i class="fa-solid fa-circle-plus"></i> Create Waybill
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Section: My Finance -->
+                <div class="nav-section">
+                    <div class="section-header" data-toggle="finance">
+                        <i class="fa-solid fa-scale-balanced"></i>
+                        <span>My Finance</span>
+                        <i class="fa-solid fa-chevron-down chevron"></i>
+                    </div>
+                    <div class="section-content" id="finance-links">
+                        <a href="javascript:void(0)" class="nav-link" data-url="/Managment_Tools.html/MyFinance.html" data-tab="dashboard">
+                            <i class="fa-solid fa-chart-pie"></i> Finance Dashboard
+                        </a>
+                        <a href="javascript:void(0)" class="nav-link" data-url="/Managment_Tools.html/MyFinance.html" data-tab="invoices">
+                            <i class="fa-solid fa-file-invoice-dollar"></i> Invoice Management
+                        </a>
+                        <a href="javascript:void(0)" class="nav-link" data-url="/Managment_Tools.html/MyFinance.html" data-tab="payments">
+                            <i class="fa-solid fa-receipt"></i> Payment Tracking
+                        </a>
+                        <a href="javascript:void(0)" class="nav-link" data-url="/Managment_Tools.html/MyFinance.html" data-tab="outstanding">
+                            <i class="fa-solid fa-calendar-xmark"></i> Outstanding Dues
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Section: My Customs -->
+                <div class="nav-section">
+                    <div class="section-header" data-toggle="customs">
+                        <i class="fa-solid fa-stamp"></i>
+                        <span>My Customs</span>
+                        <i class="fa-solid fa-chevron-down chevron"></i>
+                    </div>
+                    <div class="section-content" id="customs-links">
+                        <a href="javascript:void(0)" class="nav-link" data-url="/Managment_Tools.html/MyCustoms.html" data-tab="dashboard">
+                            <i class="fa-solid fa-gauge-high"></i> Customs Dashboard
+                        </a>
+                        <a href="javascript:void(0)" class="nav-link" data-url="/Managment_Tools.html/MyCustoms.html" data-tab="declarations">
+                            <i class="fa-solid fa-file-shield"></i> Declaration Management
+                        </a>
+                        <a href="javascript:void(0)" class="nav-link" data-url="/Managment_Tools.html/MyCustoms.html" data-tab="clearance">
+                            <i class="fa-solid fa-truck-ramp-box"></i> Clearance Tracking
+                        </a>
+                        <a href="javascript:void(0)" class="nav-link" data-url="/Managment_Tools.html/MyCustoms.html" data-tab="documents">
+                            <i class="fa-solid fa-vault"></i> Document Center
+                        </a>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="/api/logout" class="logout-link">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Log Out</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- ========================================== -->
+        <!-- MAIN CONTENT AREA (IFRAME) -->
+        <!-- ========================================== -->
+        <main class="main-workspace">
+            <div id="loading-overlay">
+                <div class="loader"></div>
+            </div>
+            <iframe id="portal-frame" src="/Managment_Tools.html/Hub.html" frameborder="0"></iframe>
+        </main>
+    </div>
+
+    <script src="/js/portal.js"></script>
+</body>
+
+</html>

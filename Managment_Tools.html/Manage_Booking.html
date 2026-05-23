@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google" content="notranslate">
+    <title>Manage Bookings - SATTAR EXIM LLP Control Console</title>
+    <!-- Google Fonts for Modern Premium Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Dedicated Style sheets -->
+    <link rel="stylesheet" href="../css/Manage_Booking.css">
+</head>
+
+<body>
+
+    <div class="hub-container">
+        
+        <!-- ========================================== -->
+        <!-- COLLAPSIBLE SIDEBAR NAV -->
+        <!-- ========================================== -->
+        <aside class="sidebar">
+            <div>
+                <div class="brand">
+                    <i class="fa-solid fa-earth-americas"></i>
+                    <span>SATTAR EXIM LLP SYSTEM</span>
+                </div>
+                
+                <nav class="nav-group">
+                    <div class="nav-item active" data-tab="dashboard">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <span>Control Ledger</span>
+                    </div>
+                    <div class="nav-item" data-tab="create-wizard">
+                        <i class="fa-solid fa-circle-plus"></i>
+                        <span>Create Waybill</span>
+                    </div>
+                </nav>
+            </div>
+
+            <div class="sidebar-footer">
+                <a href="Hub.html" class="back-link">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Return to Hub</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- ========================================== -->
+        <!-- MAIN OPERATIONAL WORKSPACE -->
+        <!-- ========================================== -->
+        <main class="main-workspace">
+            
+            <!-- Global Master Header -->
+            <header class="master-header">
+                <div class="header-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="global-search-input" placeholder="Search Tracking ID (e.g. TRK650891)...">
+                </div>
+
+                <div class="header-actions">
+                    <div class="notification-bell" style="position: relative; cursor: pointer; color: var(--text-secondary);">
+                        <i class="fa-solid fa-bell" style="font-size: 1.1rem;"></i>
+                        <span style="position: absolute; top: -2px; right: -2px; width: 6px; height: 6px; background-color: var(--color-critical); border-radius: 50%;"></span>
+                    </div>
+                    
+                    <div class="user-profile">
+                        <div class="avatar">AJ</div>
+                        <span style="font-weight: 600; font-size: 0.9rem; color: var(--text-primary);">Aditya Jaiswal</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dynamic Viewport -->
+            <section class="page-viewport">
+
+                <!-- ========================================== -->
+                <!-- PAGE 1: CONTROL LEDGER VIEW -->
+                <!-- ========================================== -->
+                <div id="dashboard-view" class="viewport-view active">
+                    <div class="page-title-row">
+                        <div>
+                            <h1>Bookings Control Ledger</h1>
+                            <p class="page-subtitle">Real-time scheduling, routing, and volumetric cargo manifest registry</p>
+                        </div>
+                    </div>
+
+                    <!-- Operational KPI Ribbon -->
+                    <div class="kpi-grid">
+                        <div class="kpi-card">
+                            <div class="kpi-header">
+                                <span>TOTAL ACTIVE MANIFESTS</span>
+                                <i class="fa-solid fa-box-open" style="color: var(--color-transit);"></i>
+                            </div>
+                            <div class="kpi-value" id="total">0</div>
+                        </div>
+
+                        <div class="kpi-card">
+                            <div class="kpi-header">
+                                <span>DELIVERED & SIGNED OFF</span>
+                                <i class="fa-solid fa-circle-check" style="color: var(--color-nominal);"></i>
+                            </div>
+                            <div class="kpi-value" id="delivered">0</div>
+                        </div>
+
+                        <div class="kpi-card">
+                            <div class="kpi-header">
+                                <span>PENDING REGULATORY APPROVAL</span>
+                                <i class="fa-solid fa-hourglass-half" style="color: var(--color-warning);"></i>
+                            </div>
+                            <div class="kpi-value" id="pending">0</div>
+                        </div>
+
+                        <div class="kpi-card">
+                            <div class="kpi-header">
+                                <span>IN-TRANSIT DISPATCHES</span>
+                                <i class="fa-solid fa-truck-fast" style="color: var(--color-transit);"></i>
+                            </div>
+                            <div class="kpi-value" id="shipped">0</div>
+                        </div>
+                    </div>
+
+                    <!-- Delivery SLA progress dial -->
+                    <div class="progress-box">
+                        <h3 style="font-size: 0.9rem; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+                            <i class="fa-solid fa-chart-bar" style="color: var(--color-nominal);"></i>
+                            <span>Consignment SLA Fulfillment Ratio</span>
+                        </h3>
+                        <div class="progress-bar">
+                            <div id="progress" class="progress-fill"></div>
+                        </div>
+                    </div>
+
+                    <!-- Bookings registry table -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Operational Bookings Registry</h2>
+                        </div>
+
+                        <div class="table-toolbar">
+                            <div class="search-box">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <input type="text" id="search" placeholder="Filter registry by name, tracking, origin...">
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn secondary" onclick="clearAll()">
+                                    <i class="fa-solid fa-trash-can"></i> Clear Archive
+                                </button>
+                                <button class="btn primary" onclick="document.querySelector('.nav-item[data-tab=\'create-wizard\']').click()">
+                                    <i class="fa-solid fa-plus"></i> Initiate Booking
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="high-density-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Tracking</th>
+                                        <th>Consignee</th>
+                                        <th>Contact Phone</th>
+                                        <th>Origin Hub</th>
+                                        <th>Destination Hub</th>
+                                        <th>Freight Quote</th>
+                                        <th>Status</th>
+                                        <th style="text-align: center;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody">
+                                    <!-- Dynamic rows loaded by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========================================== -->
+                <!-- PAGE 2: CREATE WIZARD VIEW -->
+                <!-- ========================================== -->
+                <div id="create-wizard-view" class="viewport-view">
+                    <div class="page-title-row">
+                        <div>
+                            <h1 id="wizard-view-title">Initiate Cargo Manifest</h1>
+                            <p class="page-subtitle">Multi-step volumetric booking and freight rate quote compiler</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <!-- Stepper Graphic Connector -->
+                        <div class="wizard-stepper">
+                            <div class="stepper-bar-fill"></div>
+                            
+                            <div class="step-node active" data-step="1">
+                                <div class="step-circle">1</div>
+                                <div class="step-label">Contact</div>
+                            </div>
+                            <div class="step-node" data-step="2">
+                                <div class="step-circle">2</div>
+                                <div class="step-label">Terminals</div>
+                            </div>
+                            <div class="step-node" data-step="3">
+                                <div class="step-circle">3</div>
+                                <div class="step-label">Cargo Profile</div>
+                            </div>
+                            <div class="step-node" data-step="4">
+                                <div class="step-circle">4</div>
+                                <div class="step-label">Summary</div>
+                            </div>
+                        </div>
+
+                        <!-- Stepper Panes -->
+                        <div class="wizard-panes-container">
+                            
+                            <!-- STEP 1: Contact Profile -->
+                            <div class="wizard-pane active">
+                                <div style="margin-bottom: 24px;">
+                                    <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 4px;">Contact Profile</h3>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem;">Input primary consignee details and operational contact number</p>
+                                </div>
+                                <div class="form-grid">
+                                    <div class="form-field">
+                                        <label for="name">Consignee Client Name</label>
+                                        <input type="text" id="name" placeholder="e.g. Acme Corporation Ltd.">
+                                    </div>
+                                    <div class="form-field">
+                                        <label for="phone">Authorization Representative Phone</label>
+                                        <input type="text" id="phone" placeholder="e.g. 9876543210">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- STEP 2: Route Terminals -->
+                            <div class="wizard-pane">
+                                <div style="margin-bottom: 24px;">
+                                    <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 4px;">Route Terminals</h3>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem;">Specify departure/arrival port codes or domestic logistic hubs</p>
+                                </div>
+                                <div class="form-grid">
+                                    <div class="form-field">
+                                        <label for="pickup">Origin Port / Hub</label>
+                                        <input type="text" id="pickup" placeholder="e.g. Shanghai Port (CN)">
+                                    </div>
+                                    <div class="form-field">
+                                        <label for="delivery">Destination Port / Hub</label>
+                                        <input type="text" id="delivery" placeholder="e.g. Rotterdam Terminal (NL)">
+                                    </div>
+                                </div>
+
+                                <!-- Dynamic Route Amendment Delta Viewer -->
+                                <div id="wizard-delta-viewer" style="display: none;" class="delta-box">
+                                    <div class="delta-item original">
+                                        <label>Original Route</label>
+                                        <span id="delta-orig-pickup">-</span> <i class="fa-solid fa-arrow-right-long" style="margin: 0 4px; color: var(--text-muted);"></i> <span id="delta-orig-delivery">-</span>
+                                    </div>
+                                    <div class="delta-item modified">
+                                        <label>Proposed Amendment</label>
+                                        <span id="delta-mod-pickup">-</span> <i class="fa-solid fa-arrow-right-long" style="margin: 0 4px; color: var(--color-nominal);"></i> <span id="delta-mod-delivery">-</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- STEP 3: Cargo Profile -->
+                            <div class="wizard-pane">
+                                <div style="margin-bottom: 24px;">
+                                    <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 4px;">Cargo Profile & Tariffs</h3>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem;">Log payload specifications, shipping mode, and dispatch costings</p>
+                                </div>
+                                
+                                <div class="summary-review-grid">
+                                    <!-- Inputs Column -->
+                                    <div class="form-grid" style="grid-column: 1 / 2; gap: 16px;">
+                                        <div class="form-field" style="grid-column: span 2;">
+                                            <label for="parcel">Payload Contents Description</label>
+                                            <input type="text" id="parcel" placeholder="e.g. Industrial machinery parts (20ft FCL)">
+                                        </div>
+                                        <div class="form-field">
+                                            <label for="transport-mode">Carriage Mode</label>
+                                            <select id="transport-mode">
+                                                <option value="Ocean">Ocean Freight</option>
+                                                <option value="Air">Air Express</option>
+                                                <option value="Road">Road Haulage</option>
+                                                <option value="Rail">Rail Intermodal</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-field">
+                                            <label for="status">Initial Status</label>
+                                            <select id="status">
+                                                <option value="Pending">Pending Approval</option>
+                                                <option value="Shipped">Shipped</option>
+                                                <option value="Delivered">Delivered</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-field">
+                                            <label for="parcel-weight">Gross Weight (kg)</label>
+                                            <input type="number" id="parcel-weight" placeholder="e.g. 2400" min="0">
+                                        </div>
+                                        <div class="form-field">
+                                            <label for="parcel-volume">Total Volume (cbm)</label>
+                                            <input type="number" id="parcel-volume" placeholder="e.g. 15.4" min="0">
+                                        </div>
+                                        <div class="form-field" style="grid-column: span 2;">
+                                            <label for="price">Freight Waybill Fee (₹)</label>
+                                            <input type="number" id="price" placeholder="Dynamic quote overrides manual entry">
+                                        </div>
+                                    </div>
+
+                                    <!-- Price Estimator Card -->
+                                    <div class="quote-card" style="grid-column: 2 / 3; align-self: flex-start;">
+                                        <div class="quote-title">Dynamic Rate Quote</div>
+                                        <div class="quote-price" id="quote-price-value">₹15,000</div>
+                                        <div class="quote-details">
+                                            Pricing aggregates live carrier rates, payload weight/density, carriage mode multipliers, and gateway fees. Adjust parcel dimensions to update estimate in real-time.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- STEP 4: Revision Summary -->
+                            <div class="wizard-pane">
+                                <div style="margin-bottom: 24px;">
+                                    <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 4px;">Manifest Revision & Approval</h3>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem;">Review consolidated manifest inputs before locking the waybill</p>
+                                </div>
+
+                                <div class="summary-review-grid">
+                                    <div class="summary-review-box">
+                                        <div class="summary-row">
+                                            <span class="summary-label">Consignee Client</span>
+                                            <span class="summary-value" id="sum-name">-</span>
+                                        </div>
+                                        <div class="summary-row">
+                                            <span class="summary-label">Contact Phone</span>
+                                            <span class="summary-value" id="sum-phone">-</span>
+                                        </div>
+                                        <div class="summary-row">
+                                            <span class="summary-label">Origin Hub</span>
+                                            <span class="summary-value" id="sum-pickup">-</span>
+                                        </div>
+                                        <div class="summary-row">
+                                            <span class="summary-label">Destination Hub</span>
+                                            <span class="summary-value" id="sum-delivery">-</span>
+                                        </div>
+                                        <div class="summary-row">
+                                            <span class="summary-label">Carriage Mode</span>
+                                            <span class="summary-value" id="sum-mode">-</span>
+                                        </div>
+                                        <div class="summary-row">
+                                            <span class="summary-label">Manifest Details</span>
+                                            <span class="summary-value" id="sum-parcel">-</span>
+                                        </div>
+                                        <div class="summary-row" style="border-bottom: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border-color);">
+                                            <span class="summary-label" style="font-size: 1rem; color: var(--text-primary);">Total Carriage Cost</span>
+                                            <span class="summary-value" id="sum-price" style="font-size: 1.25rem; color: var(--color-transit); font-weight: 800;">-</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="card" style="margin: 0; background: linear-gradient(135deg, #f1f5f9, #e2e8f0); border: 1px dashed var(--border-color); display: flex; flex-direction: column; justify-content: center; gap: 16px; padding: 24px;">
+                                        <h4 style="font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
+                                            <i class="fa-solid fa-file-contract" style="color: var(--color-transit);"></i>
+                                            <span>SATTAR EXIM LLP Smart Dispatch</span>
+                                        </h4>
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5; margin: 0;">
+                                            Submitting this manifest registers a digital waybill ledger. Freight tracking details, carrier routing, and gate codes will generate immediately. Re-routing or cancellation requires verified credentials.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Stepper Actions Toolbar -->
+                        <div class="btn-group" style="margin-top: 32px; justify-content: space-between; display: flex;">
+                            <button id="wizard-prev-btn" class="btn secondary" style="display: none;">
+                                <i class="fa-solid fa-arrow-left"></i> Previous Step
+                            </button>
+                            <button id="wizard-next-btn" class="btn primary" style="margin-left: auto;">
+                                Continue <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </main>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- SLIDE-IN DETAIL PROGRESS DRAWER -->
+    <!-- ========================================== -->
+    <div class="detail-drawer" id="detail-drawer">
+        <div class="drawer-header">
+            <h3>Waybill Details</h3>
+            <span class="close-btn" onclick="closeDrawer()"><i class="fa-solid fa-xmark"></i></span>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+            <div>
+                <small style="color: var(--text-muted); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;">TRACKING ID</small>
+                <div style="font-size: 1.5rem; font-weight: 800; color: var(--color-transit); font-family: monospace;" id="drawer-id">TRK000000</div>
+            </div>
+            
+            <div class="card" style="padding: 16px; margin: 0; background-color: var(--bg-primary); border-radius: var(--radius-md);">
+                <h4 style="margin-bottom: 12px; color: var(--text-secondary); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700;">Consignee Profile</h4>
+                <div class="summary-row"><span class="summary-label">Client Name</span><span class="summary-value" id="drawer-name">-</span></div>
+                <div class="summary-row"><span class="summary-label">Contact Phone</span><span class="summary-value" id="drawer-phone">-</span></div>
+            </div>
+
+            <div class="card" style="padding: 16px; margin: 0; background-color: var(--bg-primary); border-radius: var(--radius-md);">
+                <h4 style="margin-bottom: 12px; color: var(--text-secondary); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700;">Freight Route</h4>
+                <div class="summary-row"><span class="summary-label">Origin Hub</span><span class="summary-value" id="drawer-pickup">-</span></div>
+                <div class="summary-row"><span class="summary-label">Destination Hub</span><span class="summary-value" id="drawer-delivery">-</span></div>
+            </div>
+
+            <div class="card" style="padding: 16px; margin: 0; background-color: var(--bg-primary); border-radius: var(--radius-md);">
+                <h4 style="margin-bottom: 12px; color: var(--text-secondary); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700;">Cargo & Cost</h4>
+                <div class="summary-row"><span class="summary-label">Manifest Details</span><span class="summary-value" id="drawer-parcel">-</span></div>
+                <div class="summary-row"><span class="summary-label">Freight Cost</span><span class="summary-value" id="drawer-price">-</span></div>
+                <div class="summary-row" style="border-bottom: none;"><span class="summary-label">Control Status</span><span id="drawer-status" class="badge-pill">-</span></div>
+            </div>
+
+            <div class="card" style="padding: 16px; margin: 0; border-radius: var(--radius-md);">
+                <h4 style="margin-bottom: 12px; color: var(--text-secondary); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700;">Transit Timeline Telemetry</h4>
+                <div class="milestone-stepper" id="drawer-timeline">
+                    <!-- Dynamic milestones loaded by JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Iframe Integration Helper -->
+    <script>
+        if (window.self !== window.top) {
+            document.documentElement.classList.add('portal-mode');
+            document.body.classList.add('portal-mode');
+            // Hide sidebar and adjust layout
+            const sidebar = document.querySelector('.sidebar');
+            if (sidebar) sidebar.style.display = 'none';
+            const container = document.querySelector('.hub-container');
+            if (container) container.style.display = 'block';
+            const workspace = document.querySelector('.main-workspace');
+            if (workspace) workspace.style.width = '100%';
+        }
+    </script>
+    <!-- Core Operations JS -->
+    <script src="../js/Manage_Booking.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,19 @@
+# Environments & Secrets
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Python Cache & Compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# IDEs & System files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+TestResults.xml

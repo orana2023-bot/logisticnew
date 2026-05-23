@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="../css/shipment.css">
+  <title>Track Shipment</title>
+
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+  
+  <header>
+    <div class="first_nav_bar">
+      <div class="f_left_nav"></div>
+      <div class="f_right_nav">
+        <a href="#">Search</a>
+        <a href="#">Support</a>
+        <a href="#">Contact</a>
+        <a href="#">Register</a>
+        <a href="#">Login</a>
+        <button>Book now</button>
+        <div class="social-icons">
+          <i class="fa-brands fa-facebook"></i>
+          <i class="fa-brands fa-instagram"></i>
+          <i class="fa-brands fa-twitter"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="second_nav_bar">
+      <div class="s_left_nav">
+        <div class="logo">
+          <a href="/index.html"><img src="/assets/glogo.jpeg" alt="TransGlobal Logo"></a>
+        </div>
+        <div class="name">
+          <h2>TransGlobal</h2>
+        </div>
+      </div>
+      <div class="s_right_nav">
+        <button class="hamburger" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <nav class="nav-links">
+          <a href="index.html">Service</a>
+          <a href="#">Manage</a>
+          <a href="track_shipment.html">Tracking</a>
+          <a href="#">Book</a>
+          <a href="#">About Us</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="tracking-main">
+    <section class="track-section">
+      <div class="track-card">
+        <h2>Track Your Shipment 📦</h2>
+        <p>Enter your tracking number below to see the current status of your package.</p>
+        <div class="search-box">
+          <input type="text" id="trackingInput" placeholder="Enter Tracking ID (e.g., TRK001)">
+          <button id="trackBtn">Track</button>
+        </div>
+      </div>
+
+      <div id="trackingResult" class="tracking-result-container hidden">
+        <div class="status-header">
+          <div class="info-group">
+            <span class="label">Tracking ID:</span>
+            <span class="value" id="resTrackingId">--</span>
+          </div>
+          <div class="info-group">
+            <span class="label">Current Status:</span>
+            <span class="value status-pill" id="resStatusText">--</span>
+          </div>
+          <div class="info-group">
+            <span class="label">Destination:</span>
+            <span class="value" id="resLocation">--</span>
+          </div>
+        </div>
+
+        <div class="progress-container mt-4 px-3">
+          <div class="progress" style="height: 25px;">
+            <div id="dynamicProgressBar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+          </div>
+          <div class="d-flex justify-content-between mt-2 text-muted small fw-bold">
+            <span id="label-ordered">Ordered</span>
+            <span id="label-shipped">Shipped</span>
+            <span id="label-transit">In Transit</span>
+            <span id="label-delivered">Delivered</span>
+          </div>
+        </div>
+
+        <!-- ── Full Details Grid ── -->
+        <div class="shipment-details-grid mt-4">
+          <div class="detail-card">
+            <span class="det-label"><i class="fa-solid fa-user"></i> Recipient</span>
+            <span class="det-value" id="detName">--</span>
+          </div>
+          <div class="detail-card">
+            <span class="det-label"><i class="fa-solid fa-phone"></i> Phone</span>
+            <span class="det-value" id="detPhone">--</span>
+          </div>
+          <div class="detail-card">
+            <span class="det-label"><i class="fa-solid fa-location-pin"></i> Origin</span>
+            <span class="det-value" id="detPickup">--</span>
+          </div>
+          <div class="detail-card">
+            <span class="det-label"><i class="fa-solid fa-map-pin"></i> Destination</span>
+            <span class="det-value" id="detDelivery">--</span>
+          </div>
+          <div class="detail-card">
+            <span class="det-label"><i class="fa-solid fa-ship"></i> Mode</span>
+            <span class="det-value" id="detMode">--</span>
+          </div>
+          <div class="detail-card">
+            <span class="det-label"><i class="fa-solid fa-calendar-check"></i> ETA</span>
+            <span class="det-value" id="detETA">--</span>
+          </div>
+          <div class="detail-card">
+            <span class="det-label"><i class="fa-solid fa-box"></i> Parcel Info</span>
+            <span class="det-value" id="detParcel">--</span>
+          </div>
+          <div class="detail-card">
+            <span class="det-label"><i class="fa-solid fa-dollar-sign"></i> Shipment Value</span>
+            <span class="det-value" id="detPrice">--</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="errorMsg" class="error-msg hidden">
+        <p><i class="fa-solid fa-circle-exclamation"></i> Invalid Tracking ID. Please try again.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-grid">
+        <div class="footer-column about">
+          <div class="footer-logo">
+            <img src="/assets/glogo.jpeg" alt="TransGlobal Logo">
+            <h2>TransGlobal</h2>
+          </div>
+          <p>Connecting the world through reliable logistics, advanced tracking, and sustainable shipping solutions.</p>
+          <div class="footer-social">
+            <a href="#" class="social-icon"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" class="social-icon"><i class="fa-brands fa-x-twitter"></i></a>
+          </div>
+        </div>
+        <div class="footer-column">
+          <h3>Services</h3>
+          <ul>
+            <li><a href="#">Ocean Freight</a></li>
+            <li><a href="#">Air Freight</a></li>
+            <li><a href="#">Road Transport</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Contact</h3>
+          <p><i class="fa-solid fa-location-dot"></i> 123 Logistics Ave, NY</p>
+          <p><i class="fa-solid fa-phone"></i> +1 (800) 123-4567</p>
+        </div>
+        <div class="footer-column">
+          <h3>Newsletter</h3>
+          <form class="footer-form">
+            <input type="email" placeholder="Email address">
+            <button type="submit"><i class="fa-solid fa-paper-plane"></i></button>
+          </form>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 TransGlobal. All Rights Reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/track-shipment.js"></script>
+</body>
+</html>

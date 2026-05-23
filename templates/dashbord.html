@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Logistics Dashboard</title>
+  <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <h2>🚚 Logistics</h2>
+    <ul>
+      <li class="active">Dashboard</li>
+      <li>Shipments</li>
+      <li>Tracking</li>
+      <li>Settings</li>
+    </ul>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main">
+
+    <!-- Topbar -->
+    <div class="topbar">
+      <h1>Dashboard</h1>
+      <input type="text" id="searchInput" placeholder="Search Tracking ID..." onkeyup="searchShipment()">
+    </div>
+
+    <!-- Status Cards -->
+    <div class="cards">
+      <div class="card pending">Pending <span id="pendingCount">0</span></div>
+      <div class="card transit">In Transit <span id="transitCount">0</span></div>
+      <div class="card delivered">Delivered <span id="deliveredCount">0</span></div>
+    </div>
+
+    <!-- Filter Buttons -->
+    <div class="filters">
+      <button onclick="filterStatus('All')">All</button>
+      <button onclick="filterStatus('Pending')">Pending</button>
+      <button onclick="filterStatus('In Transit')">In Transit</button>
+      <button onclick="filterStatus('Delivered')">Delivered</button>
+    </div>
+
+    <!-- Table -->
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Tracking ID</th>
+            <th>Sender</th>
+            <th>Receiver</th>
+            <th>Status</th>
+            <th>Location</th>
+          </tr>
+        </thead>
+        <tbody id="shipmentTable"></tbody>
+      </table>
+    </div>
+
+  </main>
+
+</div>
+
+
+
+<script src="dashboard.js"></script>
+</body>
+</html>

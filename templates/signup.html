@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SATTAR EXIM LLP Signup</title>
+    <link rel="stylesheet" href="/css/signup.css">
+</head>
+<!-- body part -->
+<body>
+    <div class="signup-container">
+        <h2>Create Account</h2>
+        <form id="signupForm">
+            <div class="input-group">
+                <input type="text" id="fullname" placeholder="Full Name" required>
+            </div>
+            <div class="input-group">
+                <input type="email" id="email" placeholder="Email Address" required>
+            </div>
+            <div class="input-group">
+                <input type="text" id="username" placeholder="Username" required>
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" placeholder="Password" required>
+            </div>
+            <div class="input-group">
+                <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+            </div>
+            <button type="submit" class="btn">Sign Up</button>
+        </form>
+        <p class="footer-text">Already have an account? / <a href="/templates/login.html">Login</a></p>
+        <p class="footer-text">© 2026 SATTAR EXIM LLP</p>
+
+    </div>
+
+    <script>
+        document.getElementById("signupForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const name = document.getElementById("fullname").value;
+            const email = document.getElementById("email").value;
+            const user = document.getElementById("username").value;
+            const pass = document.getElementById("password").value;
+            const confirmPass = document.getElementById("confirmPassword").value;
+
+            if (pass !== confirmPass) {
+                alert("Passwords do not match!");
+                return;
+            }
+
+            if (name && email && user && pass) {
+                alert("Account created successfully for " + name + "!");
+                window.location.href = "/index.html";
+            } else {
+                alert("Please fill in all fields.");
+            }
+        });
+    </script>
+</body>
+
+</html>

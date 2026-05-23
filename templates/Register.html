@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register - TransGlobal</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="/css/Register.css">
+</head>
+
+<body>
+
+<div class="register-container">
+
+    <!-- LEFT -->
+    <div class="register-left">
+        <h2>Welcome to TransGlobal</h2>
+        <p>
+            Join our global logistics platform and start shipping smarter.
+            Fast, secure and reliable delivery worldwide.
+        </p>
+    </div>
+
+    
+    <div class="register-right">
+        <h2>Create Account</h2>
+
+        <form id="registerForm">
+
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="fullName" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="email" placeholder="Enter your email" required>
+            </div>
+
+            <div class="form-group">
+                <label>Phone</label>
+                <input type="tel" id="phone" placeholder="Enter your phone number" required>
+            </div>
+
+            <div class="form-group password-box">
+                <label>Password</label>
+                <input type="password" id="password" placeholder="Enter your password" required>
+                <i class="fa-solid fa-eye" onclick="togglePassword()"></i>
+            </div>
+
+            <div class="form-group password-box">
+                <label>Confirm Password</label>
+                <input type="password" id="confirm" placeholder="Confirm your password" required>
+            </div>
+
+            <button type="submit" class="register-btn">Register</button>
+
+        </form>
+
+        <div class="extra-links">
+            Already have an account? <a href="/templates/login.html">Login</a>
+        </div>
+
+        <div class="social-login">
+            <p>Or sign up with</p>
+            <i class="fa-brands fa-google"></i>
+            <i class="fa-brands fa-facebook"></i>
+            <i class="fa-brands fa-x-twitter"></i>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+function togglePassword() {
+    const pass = document.getElementById("password");
+    pass.type = pass.type === "password" ? "text" : "password";
+}
+
+document.getElementById("registerForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const fullNameVal = document.getElementById("fullName").value;
+    const emailVal = document.getElementById("email").value;
+    const phoneVal = document.getElementById("phone").value;
+    const passwordVal = document.getElementById("password").value;
+    const confirmVal = document.getElementById("confirm").value;
+
+    if (passwordVal !== confirmVal) {
+        alert("Passwords do not match!");
+        return;
+    }
+
+    fetch('/api/register', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            full_name: fullNameVal,
+            email: emailVal,
+            phone: phoneVal,
+            password: passwordVal
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(data.message + " Redirecting to Login...");
+            window.location.href = "/templates/login.html";
+        } else {
+            alert(data.message || "Registration failed.");
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert("An error occurred. Make sure app.py is running and XAMPP MySQL is active.");
+    });
+});
+</script>
+
+</body>
+</html>
