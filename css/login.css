@@ -261,3 +261,53 @@ body {
         padding: 32px 24px;
     }
 }
+
+/* Premium Glassmorphic Alert Box */
+.alert-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 24px;
+    animation: alertSlideDown 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(10px);
+    border: 1px solid transparent;
+}
+
+@keyframes alertSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.alert-box.alert-error {
+    background-color: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #fca5a5;
+}
+
+.alert-box.alert-error i {
+    color: #ef4444;
+    font-size: 16px;
+}
+
+.alert-box.alert-success {
+    background-color: rgba(16, 185, 129, 0.15);
+    border-color: rgba(16, 185, 129, 0.3);
+    color: #a7f3d0;
+}
+
+.alert-box.alert-success i {
+    color: #10b981;
+    font-size: 16px;
+}
+

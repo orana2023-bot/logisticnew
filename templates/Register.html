@@ -26,6 +26,12 @@
     <div class="register-right">
         <h2>Create Account</h2>
 
+        <!-- Custom Premium Light Alert Notification -->
+        <div id="alertBox" class="alert-box" style="display: none;">
+            <i id="alertIcon" class="fas"></i>
+            <span id="alertMessage"></span>
+        </div>
+
         <form id="registerForm">
 
             <div class="form-group">
@@ -79,6 +85,24 @@ function togglePassword() {
     pass.type = pass.type === "password" ? "text" : "password";
 }
 
+// Premium alert rendering function
+function showAlert(message, type) {
+    const alertBox = document.getElementById("alertBox");
+    const alertIcon = document.getElementById("alertIcon");
+    const alertMessage = document.getElementById("alertMessage");
+    
+    alertMessage.textContent = message;
+    alertBox.className = "alert-box alert-" + type;
+    
+    if (type === "success") {
+        alertIcon.className = "fas fa-check-circle";
+    } else {
+        alertIcon.className = "fas fa-exclamation-circle";
+    }
+    
+    alertBox.style.display = "flex";
+}
+
 document.getElementById("registerForm").addEventListener("submit", function (e) {
     e.preventDefault();
     const fullNameVal = document.getElementById("fullName").value;
@@ -88,7 +112,7 @@ document.getElementById("registerForm").addEventListener("submit", function (e) 
     const confirmVal = document.getElementById("confirm").value;
 
     if (passwordVal !== confirmVal) {
-        alert("Passwords do not match!");
+        showAlert("Passwords do not match!", "error");
         return;
     }
 
@@ -107,15 +131,17 @@ document.getElementById("registerForm").addEventListener("submit", function (e) 
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            alert(data.message + " Redirecting to Login...");
-            window.location.href = "/templates/login.html";
+            showAlert(data.message + " Redirecting to Login...", "success");
+            setTimeout(() => {
+                window.location.href = "/templates/login.html";
+            }, 1500);
         } else {
-            alert(data.message || "Registration failed.");
+            showAlert(data.message || "Registration failed.", "error");
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        alert("An error occurred. Make sure app.py is running and XAMPP MySQL is active.");
+        showAlert("An error occurred. Make sure app.py is running and XAMPP MySQL is active.", "error");
     });
 });
 </script>

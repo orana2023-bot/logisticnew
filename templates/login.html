@@ -21,6 +21,13 @@
             <h2>SATTAR EXIM LLP</h2>
             <p>Enter your credentials to access your account</p>
         </div>
+        
+        <!-- Premium Glassmorphic Alert Notification -->
+        <div id="alertBox" class="alert-box" style="display: none;">
+            <i id="alertIcon" class="fas"></i>
+            <span id="alertMessage"></span>
+        </div>
+
         <form id="loginForm" class="login-form">
             <div class="input-group">
                 <i class="fas fa-envelope"></i>
@@ -64,6 +71,24 @@
             document.getElementById('password').value = 'password123';
             document.getElementById('loginForm').dispatchEvent(new Event('submit'));
         }
+        
+        // Premium alert rendering function
+        function showAlert(message, type) {
+            const alertBox = document.getElementById("alertBox");
+            const alertIcon = document.getElementById("alertIcon");
+            const alertMessage = document.getElementById("alertMessage");
+            
+            alertMessage.textContent = message;
+            alertBox.className = "alert-box alert-" + type;
+            
+            if (type === "success") {
+                alertIcon.className = "fas fa-check-circle";
+            } else {
+                alertIcon.className = "fas fa-exclamation-circle";
+            }
+            
+            alertBox.style.display = "flex";
+        }
     </script>
     <script>
         document.getElementById("loginForm").addEventListener("submit", function (e) {
@@ -82,18 +107,20 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        alert(data.message + " Redirecting to Portal...");
-                        window.location.href = "/portal";
+                        showAlert(data.message + " Redirecting to Portal...", "success");
+                        setTimeout(() => {
+                            window.location.href = "/portal";
+                        }, 1200);
                     } else {
-                        alert(data.message || "Invalid credentials.");
+                        showAlert(data.message || "Invalid credentials.", "error");
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert("An error occurred. Make sure app.py is running and XAMPP MySQL is active.");
+                    showAlert("An error occurred. Make sure app.py is running and XAMPP MySQL is active.", "error");
                 });
             } else {
-                alert("Please fill in all fields.");
+                showAlert("Please fill in all fields.", "error");
             }
         });
     </script>

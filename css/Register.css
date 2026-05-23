@@ -141,3 +141,48 @@ body {
         text-align: center;
     }
 }
+
+/* Premium Light Alert Box */
+.alert-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    animation: alertSlideDown 0.3s ease-out forwards;
+    border: 1px solid transparent;
+}
+
+@keyframes alertSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.alert-box.alert-error {
+    background-color: #fef2f2;
+    border-color: #fca5a5;
+    color: #b91c1c;
+}
+
+.alert-box.alert-error i {
+    color: #ef4444;
+}
+
+.alert-box.alert-success {
+    background-color: #ecfdf5;
+    border-color: #a7f3d0;
+    color: #047857;
+}
+
+.alert-box.alert-success i {
+    color: #10b981;
+}
